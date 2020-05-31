@@ -8,7 +8,9 @@ namespace Ex03.GarageLogic
 {
     class Motorcycle: Vehicle
     {
-        enum eLicenseType
+
+        //maybe private?
+        public enum eLicenseType
         {
             A,
             A1,
@@ -17,5 +19,38 @@ namespace Ex03.GarageLogic
         };     
         private eLicenseType m_License;
         private int m_EngineCapacity;
+
+        Motorcycle(eLicenseType i_License, int i_EngineCapacity) : base()
+        {
+            this.m_EngineCapacity = i_EngineCapacity;
+            this.m_License = i_License;
+        }
+
+        public eLicenseType License
+        {
+            get
+            {
+                return this.m_License;
+            }
+            set
+            {
+                this.m_License = value;
+            }
+        }
+
+        public int EngineCapacity
+        {
+            get
+            {
+                return this.m_EngineCapacity;
+            }
+            set
+            {
+                this.m_EngineCapacity = value;
+            }
+        }
+
+
+
     }
 }

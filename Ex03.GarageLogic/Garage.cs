@@ -16,6 +16,19 @@ namespace Ex03.GarageLogic
             m_VehiclesInTheGarage = new Dictionary<string, InformationOfVehicle>();
         }
 
+        public Dictionary<string, InformationOfVehicle> VehiclesInTheGarage
+        {
+            get
+            {
+                return this.m_VehiclesInTheGarage;
+            }
+            set
+            {
+                this.m_VehiclesInTheGarage = value;
+            }
+        }
+
+
         public class InformationOfVehicle
         {
             enum eCarStateInGarage

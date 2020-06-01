@@ -9,13 +9,12 @@ namespace Ex03.GarageLogic
     public class Garage
     {
         Dictionary<string, InformationOfVehicle> m_VehiclesInTheGarage;
-        
-        
+        //-----------------------------------------------------------------//
         public Garage()
         {
             m_VehiclesInTheGarage = new Dictionary<string, InformationOfVehicle>();
         }
-
+        //-----------------------------------------------------------------//
         public Dictionary<string, InformationOfVehicle> VehiclesInTheGarage
         {
             get
@@ -27,8 +26,8 @@ namespace Ex03.GarageLogic
                 this.m_VehiclesInTheGarage = value;
             }
         }
-
-
+        //-----------------------------------------------------------------//
+        //Nested class
         public class InformationOfVehicle
         {
             enum eCarStateInGarage
@@ -37,11 +36,12 @@ namespace Ex03.GarageLogic
                 Repaired,
                 Paid
             };
+            //-----------------------------------------------------------------//
             eCarStateInGarage m_State;
             string m_NameOfOwner;
             string m_PhoneNumber;
             Vehicle m_Vehicle;
-
+            //-----------------------------------------------------------------//
             public InformationOfVehicle(string i_OwnerName, string i_PhoneNumber, Vehicle i_Vehicle)
             {
                 m_NameOfOwner = i_OwnerName;
@@ -50,6 +50,5 @@ namespace Ex03.GarageLogic
                 m_Vehicle = i_Vehicle;
             }
         }
-
     }
 }

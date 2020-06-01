@@ -10,14 +10,14 @@ namespace Ex03.GarageLogic
     {
         private bool m_IsTransportingHazardousGoods;
         private float m_BaggageCapacity;
-
-        public Truck(bool i_HazardousGoods, int i_BaggageCapacity): base()
+        //-----------------------------------------------------------------//
+        public Truck(bool i_HazardousGoods, int i_BaggageCapacity, string i_Model, string i_LicenseNumber, float i_EnergyPrecentage, List<Wheel> i_Wheels, Engine i_Engine) :
+            base(i_Model, i_LicenseNumber, i_EnergyPrecentage, i_Wheels, i_Engine)
         {
             this.m_IsTransportingHazardousGoods = i_HazardousGoods;
             this.m_BaggageCapacity = i_BaggageCapacity;
         }
-
-
+        //-----------------------------------------------------------------//
         public bool IsTransportingHazardousGoods
         {
             get
@@ -29,18 +29,15 @@ namespace Ex03.GarageLogic
                 this.m_IsTransportingHazardousGoods = value;
             }
         }
-
+        //-----------------------------------------------------------------//
         public float BaggageCapacity
         {
             get
             {
                 return this.m_BaggageCapacity;
             }
-            set
-            {
-                this.m_BaggageCapacity = value;
-            }
         }
+        //-----------------------------------------------------------------//
 
     }
 

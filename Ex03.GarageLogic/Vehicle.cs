@@ -123,9 +123,10 @@ namespace Ex03.GarageLogic
             //-----------------------------------------------------------------//
             public void InflatingWheel(float i_AirToAdd)
             {
+                
                 this.m_CurrentAirPressure += i_AirToAdd;
 
-                if (this.m_CurrentAirPressure > this.m_MaxAirPressureByManufactor)
+                    if (this.m_CurrentAirPressure > this.m_MaxAirPressureByManufactor)
                 {
                     ValueOutOfRangeException exception = new ValueOutOfRangeException(this.m_MaxAirPressureByManufactor, o);
                     this.m_CurrentAirPressure -= i_AirToAdd;

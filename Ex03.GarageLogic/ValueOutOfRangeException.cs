@@ -17,5 +17,6 @@ namespace Ex03.GarageLogic
             this.m_MinValue = i_MinValue;
         }
         //-----------------------------------------------------------------//
+
     }
 }

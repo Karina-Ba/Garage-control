@@ -6,27 +6,34 @@ namespace Ex03.GarageLogic
 {
     public abstract class Vehicle
     {
-        private string m_Model;
-        private string m_LicenseNumber;
-        private float m_EnergyPercentage;
-        private List<Wheel> m_Wheels;
-        private Engine m_Engine;
+        private Engine m_Engine; 
+        private string m_LicenseNumber; 
+        private readonly List<Wheel> m_Wheels; 
+        private float m_EnergyPercentage; //Need
+        private string m_Model;           //Need
         //-----------------------------------------------------------------//
-        public Vehicle(string i_Model, string i_LicenseNumber, float i_EnergyPrecentage, List<Wheel> i_Wheels,
-            Engine i_Engine)
+        public Vehicle(Engine i_Engine, string i_LicenseNumber, int i_NumberOfWheels, float i_MaxAirPressure)
         {
-            this.m_Model = i_Model;
-            this.m_LicenseNumber = i_LicenseNumber;
-            this.m_EnergyPercentage = i_EnergyPrecentage;
-            this.m_Wheels = i_Wheels;
             this.m_Engine = i_Engine;
+            this.m_LicenseNumber = LicenseNumber;
+            this.m_Wheels = new List<Wheel>(i_NumberOfWheels);
+            this.m_EnergyPercentage = 0;
+
+            for (int i = 0; i < i_NumberOfWheels; ++i) 
+            {
+                this.m_Wheels.Add(new Wheel(i_MaxAirPressure));
+            }
         }
         //-----------------------------------------------------------------//
-        public string Model
+        public Engine Engine
         {
             get
             {
-                return this.m_Model;
+                return this.m_Engine;
+            }
+            set
+            {
+                this.m_Engine = value;
             }
         }
         //-----------------------------------------------------------------//
@@ -56,48 +63,38 @@ namespace Ex03.GarageLogic
             {
                 return this.m_Wheels;
             }
-            set
-            {
-                this.m_Wheels = value;
-            }
         }
         //-----------------------------------------------------------------//
-        public Engine Engine
+        public string Model
         {
             get
             {
-                return this.m_Engine;
+                return this.m_Model;
             }
             set
             {
-                this.m_Engine = value;
+                this.m_Model = value;
             }
-
         }
         //-----------------------------------------------------------------//
         //Nested class
         public class Wheel
         {
-            private string m_ManufactorName;
+            private float m_MaxAirPressureByManufactor; 
             private float m_CurrentAirPressure;
-            private float m_MaxAirPressureByManufactor;
+            private string m_ManufactorName;
             //-----------------------------------------------------------------//
-            public Wheel(string i_ManufactorName, float i_CurrentPressure, float i_MaxPressure)
+            public Wheel(float i_MaxPressure)
             {
-                this.m_ManufactorName = i_ManufactorName;
-                this.m_CurrentAirPressure = i_CurrentPressure;
                 this.m_MaxAirPressureByManufactor = i_MaxPressure;
+                this.m_CurrentAirPressure = 0;
             }
             //-----------------------------------------------------------------//
-            public string ManufactorName
+            public float MaxAirPressure
             {
                 get
                 {
-                    return this.m_ManufactorName;
-                }
-                set
-                {
-                    this.m_ManufactorName = value;
+                    return this.m_MaxAirPressureByManufactor;
                 }
             }
             //-----------------------------------------------------------------//
@@ -113,24 +110,27 @@ namespace Ex03.GarageLogic
                 }
             }
             //-----------------------------------------------------------------//
-            public float MaxAirPressure
+            public string ManufactorName
             {
                 get
                 {
-                    return this.m_MaxAirPressureByManufactor;
+                    return this.m_ManufactorName;
+                }
+                set
+                {
+                    this.m_ManufactorName = value;
                 }
             }
             //-----------------------------------------------------------------//
-            public void InflatingWheel(float i_AirToAdd)
+            public void InflatingWheel(float i_AirToAdd)  //In progress
             {
-                
                 this.m_CurrentAirPressure += i_AirToAdd;
 
-                    if (this.m_CurrentAirPressure > this.m_MaxAirPressureByManufactor)
+                if (this.m_CurrentAirPressure > this.m_MaxAirPressureByManufactor)
                 {
-                    ValueOutOfRangeException exception = new ValueOutOfRangeException(this.m_MaxAirPressureByManufactor, o);
+                    string errorMessage = "Maximum air pressure in tire exceeded";
                     this.m_CurrentAirPressure -= i_AirToAdd;
-                    throw exception;
+                    throw new ValueOutOfRangeException(this.m_MaxAirPressureByManufactor, 0, errorMessage); //add string with proper message
                 }
             }
             //-----------------------------------------------------------------//

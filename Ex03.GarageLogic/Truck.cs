@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
@@ -11,11 +8,9 @@ namespace Ex03.GarageLogic
         private bool m_IsTransportingHazardousGoods;
         private float m_BaggageCapacity;
         //-----------------------------------------------------------------//
-        public Truck(bool i_HazardousGoods, int i_BaggageCapacity, string i_Model, string i_LicenseNumber, float i_EnergyPrecentage, List<Wheel> i_Wheels, Engine i_Engine) :
-            base(i_Model, i_LicenseNumber, i_EnergyPrecentage, i_Wheels, i_Engine)
+        public Truck(Engine i_Engine, string i_LicenseNumber) :
+            base(i_Engine, i_LicenseNumber, 16, 28)
         {
-            this.m_IsTransportingHazardousGoods = i_HazardousGoods;
-            this.m_BaggageCapacity = i_BaggageCapacity;
         }
         //-----------------------------------------------------------------//
         public bool IsTransportingHazardousGoods
@@ -36,10 +31,12 @@ namespace Ex03.GarageLogic
             {
                 return this.m_BaggageCapacity;
             }
+            set
+            {
+                this.m_BaggageCapacity = value;
+            }
         }
         //-----------------------------------------------------------------//
 
     }
-
-
 }

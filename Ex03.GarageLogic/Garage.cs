@@ -8,7 +8,7 @@ namespace Ex03.GarageLogic
 {
     public class Garage
     {
-        Dictionary<string, InformationOfVehicle> m_VehiclesInTheGarage;
+        private readonly Dictionary<string, InformationOfVehicle> m_VehiclesInTheGarage;
         //-----------------------------------------------------------------//
         public Garage()
         {
@@ -21,16 +21,12 @@ namespace Ex03.GarageLogic
             {
                 return this.m_VehiclesInTheGarage;
             }
-            set
-            {
-                this.m_VehiclesInTheGarage = value;
-            }
         }
         //-----------------------------------------------------------------//
         //Nested class
         public class InformationOfVehicle
         {
-            enum eCarStateInGarage
+            public enum eCarStateInGarage
             {
                 InRepair,
                 Repaired,

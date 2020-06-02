@@ -12,25 +12,12 @@ namespace Ex03.GarageLogic
         //Nested class
         public class ElectricEngine: Engine
         {
-            private float m_BatteryTimeLeft;
             private float m_MaxBatteryTime;
+            private float m_BatteryTimeLeft;
             //-----------------------------------------------------------------//
-            public ElectricEngine(float i_BatteryTimeLeft, float i_MaxBatteryTime) : base()
+            public ElectricEngine(float i_MaxBatteryTime) : base()
             {
-                this.m_BatteryTimeLeft = i_BatteryTimeLeft;
                 this.m_MaxBatteryTime = i_MaxBatteryTime;
-            }
-            //-----------------------------------------------------------------//
-            public float BatteryTimeLeft
-            {
-                get
-                {
-                    return this.m_BatteryTimeLeft;
-                }
-                set
-                {
-                    this.m_BatteryTimeLeft = value;
-                }
             }
             //-----------------------------------------------------------------//
             public float MaxBatteryTime
@@ -45,9 +32,28 @@ namespace Ex03.GarageLogic
                 }
             }
             //-----------------------------------------------------------------//
+            public float BatteryTimeLeft
+            {
+                get
+                {
+                    return this.m_BatteryTimeLeft;
+                }
+                set
+                {
+                    this.m_BatteryTimeLeft = value;
+                }
+            }
+            //-----------------------------------------------------------------//
             public void ChargeBattery(float i_ChargeToAdd)
             {
+                this.m_BatteryTimeLeft += i_ChargeToAdd;
 
+                if (this.m_BatteryTimeLeft > this.m_MaxBatteryTime)
+                {
+                    string errorMessage = "Maximum battery charge exceeded";
+                    this.m_BatteryTimeLeft -= i_ChargeToAdd;
+                    throw new ValueOutOfRangeException(this.m_MaxBatteryTime, 0, errorMessage); 
+                }
             }
         }
         //-----------------------------------------------------------------//
@@ -63,13 +69,12 @@ namespace Ex03.GarageLogic
             };
             //-----------------------------------------------------------------//
             private eFuelType m_FuelType;
-            private float m_FuelLeft;
             private float m_MaxFuelCapacity;
+            private float m_FuelLeft;
             //-----------------------------------------------------------------//
-            public FuelEngine(eFuelType i_FuelType, float i_FuelLeft, float i_MaxFuel)
+            public FuelEngine(eFuelType i_FuelType, float i_MaxFuel)
             {
                 this.m_FuelType = i_FuelType;
-                this.m_FuelLeft = i_FuelLeft;
                 this.m_MaxFuelCapacity = i_MaxFuel;
             }
             //-----------------------------------------------------------------//

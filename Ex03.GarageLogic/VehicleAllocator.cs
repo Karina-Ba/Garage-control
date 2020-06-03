@@ -69,6 +69,11 @@ namespace Ex03.GarageLogic
                     break;
             }
 
+            //Exeption ex = new MYeXEPTION(.....)
+            //catch(Exeption ex)
+            //if(ex is FormatExeption)
+            //if(ex is OutOfRangeExeption)
+            
             return questionsList;
         }
     }

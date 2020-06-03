@@ -61,30 +61,75 @@ namespace Ex03.GarageLogic
         //-----------------------------------------------------------------//
         override public void SetAnswersToVehicle(List<string> answers)
         {
-            Exep exception = null;
-            int numDoors;
-
-            if(!int.TryParse(answers[0], out numDoors)) 
+            int numOfDoors, colorChoice;
+            try
             {
-
+                checkFormatException(answers, out numOfDoors, out colorChoice);
             }
-            else if (numDoors > 4 || numDoors < 1)
+            catch (FormatException exception)
             {
-
+                throw exception;
             }
 
-            if (!int.TryParse(answers[1], out numDoors)
+           
+
+
+
+
+
+            //int numDoors;
+
+           // if(!int.TryParse(answers[0], out numDoors)) 
+           // {
+
+           // }
+           // else if (numDoors > 4 || numDoors < 1)
+           // {
+
+           // }
+
+           // if (!int.TryParse(answers[1], out numDoors)
+           // {
+           //     exception = new FormatException("Not a valid door number, please enter again");
+           //     exception.Source = "0";
+           //     exception.InnerException
+
+           // }
+           //else if (numDoors > 5 || numDoors < 2)
+           // {
+                
+           // }
+
+
+        }
+
+
+        private void checkFormatException(List<string> i_Answers, out int o_numOfDoors, out int o_Color)
+        {
+            o_numOfDoors = -1;
+            o_Color = -1;
+            FormatException exception1 = null, exception2 = null;
+
+            if (!int.TryParse(i_Answers[0], out o_Color))
             {
-                exeption = new FormatException("Not a valid door number, please enter again");
-                exeption.Source = "0";
-
+                exception1 = new FormatException("No such choice, please enter another: ");
+                exception1.Source = "0";
             }
-           else if (numDoors > 5 || numDoors < 2)
+
+            if(!int.TryParse(i_Answers[1], out o_numOfDoors))
             {
-
+                exception2 = new FormatException("That's not a valid number, please enter another: ", exception1);
+                exception1.Source = "1";
             }
 
-
+            if(exception2 != null)
+            {
+                throw exception2;
+            }
+            else if(exception1 != null)
+            {
+                throw exception1;
+            }
         }
     }
 }

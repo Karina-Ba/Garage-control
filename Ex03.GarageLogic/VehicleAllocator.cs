@@ -7,11 +7,11 @@ namespace Ex03.GarageLogic
     {
         public enum eVehicleType
         {
-            ElectricCar,
-            FueledCar,
-            ElectricMotorcycle,
-            FueledMotorCycle,
-            Truck
+            ElectricCar = 1,
+            FueledCar = 2,
+            ElectricMotorcycle = 3,
+            FueledMotorCycle = 4,
+            Truck = 5
         };
         //-----------------------------------------------------------------//
         public static Vehicle AllocateVehicle(eVehicleType i_VehicleType, string i_LicenseNumber)
@@ -48,6 +48,28 @@ namespace Ex03.GarageLogic
             }
 
             return newVehicle;
+        }
+
+
+        public static List<string> GetQuestionsAboutVehicle(VehicleAllocator.eVehicleType i_VehicleType, Vehicle i_Vehicle)
+        {
+            List<string> questionsList = null;
+            switch(i_VehicleType)
+            {
+                case eVehicleType.ElectricCar:
+                case eVehicleType.FueledCar:
+                    questionsList = (i_Vehicle as Car).GetQuestionStrings();
+                    break;
+                case eVehicleType.ElectricMotorcycle:
+                case eVehicleType.FueledMotorCycle:
+                    questionsList = (i_Vehicle as Motorcycle).GetQuestionStrings();
+                    break;
+                case eVehicleType.Truck:
+                    questionsList = (i_Vehicle as Truck).GetQuestionStrings();
+                    break;
+            }
+
+            return questionsList;
         }
     }
 }

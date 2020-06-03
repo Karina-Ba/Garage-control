@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Ex03.GarageLogic
 {
@@ -48,5 +46,45 @@ namespace Ex03.GarageLogic
             }
         }
         //-----------------------------------------------------------------//
+        override public List<string> GetQuestionStrings()
+        {
+            List<string> questionString = new List<string>();
+            questionString.Add(@"Please choose car's color:
+1. Red
+2. White
+3. Black
+4. Silver");
+            questionString.Add("Please enter car's number of doors: ");
+            return questionString;
+
+        }
+        //-----------------------------------------------------------------//
+        override public void SetAnswersToVehicle(List<string> answers)
+        {
+            Exep exception = null;
+            int numDoors;
+
+            if(!int.TryParse(answers[0], out numDoors)) 
+            {
+
+            }
+            else if (numDoors > 4 || numDoors < 1)
+            {
+
+            }
+
+            if (!int.TryParse(answers[1], out numDoors)
+            {
+                exeption = new FormatException("Not a valid door number, please enter again");
+                exeption.Source = "0";
+
+            }
+           else if (numDoors > 5 || numDoors < 2)
+            {
+
+            }
+
+
+        }
     }
 }

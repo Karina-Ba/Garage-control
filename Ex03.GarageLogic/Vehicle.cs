@@ -81,7 +81,6 @@ namespace Ex03.GarageLogic
         //-----------------------------------------------------------------//
         abstract public void SetAnswersToVehicle(List<string> answers);
         //-----------------------------------------------------------------//
-
         //Nested class
         public class Wheel
         {

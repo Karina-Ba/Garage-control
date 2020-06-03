@@ -45,12 +45,13 @@ Please enter an action you would like to do: ");
             return i_UserInput == 0;
         }
         //-----------------------------------------------------------------//
-        private int getValidUserInputChoice(int i_MinimumValue, int i_MaximumValue)
+        private int getValidUserInputChoice(int i_MinValue, int i_MaxValue)
         {
             string userInputChoice = Console.ReadLine();
             int userInputNumerical = 0;
 
-            while (!int.TryParse(userInputChoice, out userInputNumerical) || userInputNumerical > i_MaximumValue || userInputNumerical < i_MinimumValue)
+            while (!int.TryParse(userInputChoice, out userInputNumerical) || 
+                   ValueOutOfRangeException.ValueOutOfRange(userInputNumerical, i_MaxValue, i_MinValue))
             {
                 Console.WriteLine("Choice is out of boundaries, Please enter again: ");
                 userInputChoice = Console.ReadLine();
@@ -74,14 +75,15 @@ Please enter an action you would like to do: ");
         {
             string licenseNumber, userInputChoice, ownerPhoneNumber, ownerName;
             VehicleAllocator.eVehicleType vehicleType;
-            Console.WriteLine(@"Please choose which Vehicle you want to make:
+            Console.Write(@"Please choose which Vehicle you want to make:
 1. Electric car.
 2. Fuel car.
 3. Electric motorcycle.
 4. Fuel motorcycle
-5. Truck");
+5. Truck
+Choice: ");
             vehicleType = (VehicleAllocator.eVehicleType)getValidUserInputChoice(1, 5);
-            Console.WriteLine("Please enter the license number of the chosen vehicle: ");
+            Console.Write("Please enter the license number of the chosen vehicle: ");
             licenseNumber = getValidStringInput();
             Vehicle newVehicle = VehicleAllocator.AllocateVehicle(vehicleType, licenseNumber);
             completeVehicleInformation(ref newVehicle, vehicleType);
@@ -95,11 +97,12 @@ Please enter an action you would like to do: ");
         private void completeVehicleInformation(ref Vehicle io_Vehicle, VehicleAllocator.eVehicleType i_VehicleType)
         {
             List<string> questions = VehicleAllocator.GetQuestionsAboutVehicle(i_VehicleType, io_Vehicle);
-            List<string> answers = new List<string>();
+            List<string> answers = new List<string>(questions.Capacity);
             bool isWrongAnswer = true;
+
             foreach(string currentString in questions)
             {
-                Console.WriteLine(currentString);
+                Console.Write(currentString);
                 answers.Add(Console.ReadLine());
             }
 
@@ -110,19 +113,23 @@ Please enter an action you would like to do: ");
                     VehicleAllocator.SetAnswersAboutVehicle(i_VehicleType, io_Vehicle, answers);
                     isWrongAnswer = false;
                 }
-                catch
+                catch (Exception exception)
                 {
-
+                    while (exception != null)
+                    {
+                        Console.WriteLine(exception.Message);
+                        answers[int.Parse(exception.Source)] = Console.ReadLine();
+                        exception = exception.InnerException;
+                    }
                 }
             }
-        
         }
         //-----------------------------------------------------------------//
         private void getOwnerInformation(out string o_ownerPhoneNumber, out string o_ownerName)
         {
             uint ownerPhone;
             bool isValidNameString = false;
-            Console.WriteLine("Please Enter your name:");
+            Console.Write("Please Enter your name:");
             o_ownerName = Console.ReadLine();
 
             while (!isValidNameString)
@@ -133,7 +140,7 @@ Please enter an action you would like to do: ");
                     if(!char.IsLetter(currentChar) || !(currentChar == ' '))
                     {
                         isValidNameString = false;
-                        Console.WriteLine("Only letters and spaces allowed, please enter your name again:");
+                        Console.Write("Only letters and spaces allowed, please enter your name again: ");
                         o_ownerName = Console.ReadLine();
                         break;
                     }
@@ -141,11 +148,11 @@ Please enter an action you would like to do: ");
             }
 
             o_ownerPhoneNumber = Console.ReadLine();
-            Console.WriteLine("Please enter your phone number:");
+            Console.Write("Please enter your phone number: ");
 
             while(!uint.TryParse(o_ownerPhoneNumber, out ownerPhone))
             {
-                Console.WriteLine("Phone can only consist of number, please enter again:");
+                Console.Write("Phone can only consist of number, please enter again: ");
                 o_ownerPhoneNumber = Console.ReadLine();
             }
         }
@@ -162,7 +169,7 @@ Please enter an action you would like to do: ");
                 {
                     if (!char.IsDigit(currentChar) || !char.IsLetter(currentChar)) 
                     {
-                        Console.WriteLine("License number can only consist of letters and numbers, please input again: ");
+                        Console.Write("License number can only consist of letters and numbers, please input again: ");
                         userStringInput = Console.ReadLine();
                         isInvalidString = true;
                         break;

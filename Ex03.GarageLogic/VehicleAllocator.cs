@@ -49,11 +49,11 @@ namespace Ex03.GarageLogic
 
             return newVehicle;
         }
-
-
+        //-----------------------------------------------------------------//
         public static List<string> GetQuestionsAboutVehicle(VehicleAllocator.eVehicleType i_VehicleType, Vehicle i_Vehicle)
         {
             List<string> questionsList = null;
+
             switch(i_VehicleType)
             {
                 case eVehicleType.ElectricCar:
@@ -69,12 +69,25 @@ namespace Ex03.GarageLogic
                     break;
             }
 
-            //Exeption ex = new MYeXEPTION(.....)
-            //catch(Exeption ex)
-            //if(ex is FormatExeption)
-            //if(ex is OutOfRangeExeption)
-            
             return questionsList;
+        }
+        //-----------------------------------------------------------------//
+        public static void SetAnswersAboutVehicle(VehicleAllocator.eVehicleType i_VehicleType, Vehicle i_Vehicle, List<string> i_Answers)
+        {
+            switch (i_VehicleType)
+            {
+                case eVehicleType.ElectricCar:
+                case eVehicleType.FueledCar:
+                    (i_Vehicle as Car).SetAnswersToVehicle(i_Answers);
+                    break;
+                case eVehicleType.ElectricMotorcycle:
+                case eVehicleType.FueledMotorCycle:
+                    (i_Vehicle as Motorcycle).SetAnswersToVehicle();
+                    break;
+                case eVehicleType.Truck:
+                    (i_Vehicle as Truck).SetAnswersToVehicle();
+                    break;
+            }
         }
     }
 }

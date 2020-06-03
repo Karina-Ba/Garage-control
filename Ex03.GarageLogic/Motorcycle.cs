@@ -45,11 +45,15 @@ namespace Ex03.GarageLogic
             }
         }
         //-----------------------------------------------------------------//
-        override public List<string> GetQuestionStrings()
+        public override List<string> GetQuestionStrings()
         {
             List<string> questionString = new List<string>();
-            questionString.Add("Please enter motorcycle's license type: ");
-            questionString.Add("Please enter motorcycle's engine capacity: ");
+            questionString.Add(@"Please choose the motorcycle's license type:
+1. A,
+2. A1,
+3. AA,
+4. B");
+            questionString.Add("Please enter the motorcycle's engine capacity: ");
             return questionString;
 
         }

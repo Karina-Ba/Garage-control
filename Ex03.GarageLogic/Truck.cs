@@ -37,10 +37,10 @@ namespace Ex03.GarageLogic
             }
         }
         //-----------------------------------------------------------------//
-        override public List<string> GetQuestionStrings()
+        public override List<string> GetQuestionStrings()
         {
             List<string> questionString = new List<string>();
-            questionString.Add("Please enter the if the truck is transparing hazardous goods:");
+            questionString.Add("Is the truck transporting hazardous goods? Y/N: ");
             questionString.Add("Please enter the truck's baggage capacity: ");
             return questionString;
 

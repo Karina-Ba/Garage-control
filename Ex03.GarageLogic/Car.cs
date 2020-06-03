@@ -46,90 +46,54 @@ namespace Ex03.GarageLogic
             }
         }
         //-----------------------------------------------------------------//
-        override public List<string> GetQuestionStrings()
+        public override List<string> GetQuestionStrings()
         {
             List<string> questionString = new List<string>();
-            questionString.Add(@"Please choose car's color:
+            questionString.Add(@"Please choose the car's color:
 1. Red
 2. White
 3. Black
 4. Silver");
-            questionString.Add("Please enter car's number of doors: ");
+            questionString.Add("Please enter the car's number of doors: ");
             return questionString;
 
         }
         //-----------------------------------------------------------------//
-        override public void SetAnswersToVehicle(List<string> answers)
+        public override void SetAnswersToVehicle(List<string> i_Answers)
         {
-            int numOfDoors, colorChoice;
-            try
+            Exception exception = null;
+            int colorChoice = -1, amountOfDoors = -1;
+
+            if (!int.TryParse(i_Answers[0], out colorChoice))
             {
-                checkFormatException(answers, out numOfDoors, out colorChoice);
+                exception = new FormatException("Format of input of the color isn't valid, please try again: ");
+                exception.Source = "0";
             }
-            catch (FormatException exception)
+            else if (ValueOutOfRangeException.ValueOutOfRange(colorChoice, 4, 1))
+            {
+                exception = new ValueOutOfRangeException(4, 1, "Color choice for the car is out of range, please try again: ", exception);
+                exception.Source = "0";
+            }
+
+            if (!int.TryParse(i_Answers[1], out amountOfDoors))
+            {
+                exception = new FormatException("Format of input of the number of doors isn't valid, please try again: ", exception);
+                exception.Source = "1";
+            }
+            else if (ValueOutOfRangeException.ValueOutOfRange(amountOfDoors, 5, 2))
+            {
+                exception = new ValueOutOfRangeException(5, 1, "Number of doors for the car is out of range, please try again: ", exception);
+                exception.Source = "1";
+            }
+
+
+            if (exception != null)
             {
                 throw exception;
             }
-
-           
-
-
-
-
-
-            //int numDoors;
-
-           // if(!int.TryParse(answers[0], out numDoors)) 
-           // {
-
-           // }
-           // else if (numDoors > 4 || numDoors < 1)
-           // {
-
-           // }
-
-           // if (!int.TryParse(answers[1], out numDoors)
-           // {
-           //     exception = new FormatException("Not a valid door number, please enter again");
-           //     exception.Source = "0";
-           //     exception.InnerException
-
-           // }
-           //else if (numDoors > 5 || numDoors < 2)
-           // {
-                
-           // }
-
-
         }
-
-
-        private void checkFormatException(List<string> i_Answers, out int o_numOfDoors, out int o_Color)
-        {
-            o_numOfDoors = -1;
-            o_Color = -1;
-            FormatException exception1 = null, exception2 = null;
-
-            if (!int.TryParse(i_Answers[0], out o_Color))
-            {
-                exception1 = new FormatException("No such choice, please enter another: ");
-                exception1.Source = "0";
-            }
-
-            if(!int.TryParse(i_Answers[1], out o_numOfDoors))
-            {
-                exception2 = new FormatException("That's not a valid number, please enter another: ", exception1);
-                exception1.Source = "1";
-            }
-
-            if(exception2 != null)
-            {
-                throw exception2;
-            }
-            else if(exception1 != null)
-            {
-                throw exception1;
-            }
-        }
+        //-----------------------------------------------------------------//
+        
+        //-----------------------------------------------------------------//
     }
 }

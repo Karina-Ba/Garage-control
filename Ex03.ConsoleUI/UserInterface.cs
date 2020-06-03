@@ -25,7 +25,7 @@ namespace Ex03.ConsoleUI
             }
         }
         //-----------------------------------------------------------------//
-        public void printMenu()
+        private void printMenu()
         {
             Console.Write(@"Menu options:
 1. Enter a vehicle to the garage.
@@ -73,26 +73,34 @@ Please enter an action you would like to do: ");
         //-----------------------------------------------------------------//
         private void getVehicleInformation(Garage i_Garage)
         {
-            string licenseNumber, userInputChoice, ownerPhoneNumber, ownerName;
-            VehicleAllocator.eVehicleType vehicleType;
-            Console.Write(@"Please choose which Vehicle you want to make:
+            string ownerPhoneNumber, ownerName;
+            
+            VehicleAllocator.eVehicleType vehicleType = (VehicleAllocator.eVehicleType)getValidUserInputChoice(1, 5);
+            Console.Write("Please enter the license number of the chosen vehicle: ");
+            string licenseNumber = getValidStringInput();
+            bool carExistsInGarage = i_Garage.VehiclesInTheGarage.ContainsKey(licenseNumber);
+
+            Console.Write(@"Please choose the vehicle type:
 1. Electric car.
 2. Fuel car.
 3. Electric motorcycle.
 4. Fuel motorcycle
 5. Truck
 Choice: ");
-            vehicleType = (VehicleAllocator.eVehicleType)getValidUserInputChoice(1, 5);
-            Console.Write("Please enter the license number of the chosen vehicle: ");
-            licenseNumber = getValidStringInput();
-            Vehicle newVehicle = VehicleAllocator.AllocateVehicle(vehicleType, licenseNumber);
-            completeVehicleInformation(ref newVehicle, vehicleType);
-            getOwnerInformation(out ownerPhoneNumber, out ownerName);
-            //new information(...)
-            //i_Garage.VehiclesInTheGarage.Add(licenseNumber, new info)
 
+            if (!carExistsInGarage)
+            {
+                Vehicle newVehicle = VehicleAllocator.AllocateVehicle(vehicleType, licenseNumber);
+                completeVehicleInformation(ref newVehicle, vehicleType);
+                getOwnerInformation(out ownerName, out ownerPhoneNumber);
+                Garage.InformationOfVehicle informationOfVehicle = new Garage.InformationOfVehicle(ownerName, ownerPhoneNumber, newVehicle);
+                //i_Garage.VehiclesInTheGarage.Add(licenseNumber, informationOfVehicle); ?? Note: Maybe need to see who calls function, maybe check if car exists in dictionary by string license first
+            }
+            else
+            {
+                
+            }
         }
-
         //-----------------------------------------------------------------//
         private void completeVehicleInformation(ref Vehicle io_Vehicle, VehicleAllocator.eVehicleType i_VehicleType)
         {
@@ -125,7 +133,7 @@ Choice: ");
             }
         }
         //-----------------------------------------------------------------//
-        private void getOwnerInformation(out string o_ownerPhoneNumber, out string o_ownerName)
+        private void getOwnerInformation(out string o_ownerName, out string o_ownerPhoneNumber)
         {
             uint ownerPhone;
             bool isValidNameString = false;

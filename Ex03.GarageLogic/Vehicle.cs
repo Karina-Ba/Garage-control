@@ -9,13 +9,14 @@ namespace Ex03.GarageLogic
         private Engine m_Engine; 
         private string m_LicenseNumber; 
         private readonly List<Wheel> m_Wheels; 
-        private float m_EnergyPercentage; //Need
-        private string m_Model;           //Need,   Why? 
+        private float m_EnergyPercentage; 
+        private string m_Model;           
         //-----------------------------------------------------------------//
-        public Vehicle(Engine i_Engine, string i_LicenseNumber, int i_NumberOfWheels, float i_MaxAirPressure)
+        public Vehicle(Engine i_Engine, string i_LicenseNumber, string i_Model, int i_NumberOfWheels, float i_MaxAirPressure)
         {
             this.m_Engine = i_Engine;
             this.m_LicenseNumber = LicenseNumber;
+            this.m_Model = i_Model;
             this.m_Wheels = new List<Wheel>(i_NumberOfWheels);
             this.m_EnergyPercentage = 0;
 

@@ -40,6 +40,17 @@ namespace Ex03.ConsoleUI
 Please enter an action you would like to do: ");
         }
         //-----------------------------------------------------------------//
+        private void printVehicleMenu()
+        {
+            Console.Write(@"Please choose the vehicle type:
+1. Electric car.
+2. Fuel car.
+3. Electric motorcycle.
+4. Fuel motorcycle
+5. Truck
+Choice: ");
+        }
+        //-----------------------------------------------------------------//
         private bool didUserExit(int i_UserInput)
         {
             return i_UserInput == 0;
@@ -73,32 +84,28 @@ Please enter an action you would like to do: ");
         //-----------------------------------------------------------------//
         private void getVehicleInformation(Garage i_Garage)
         {
-            string ownerPhoneNumber, ownerName;
-            
-            VehicleAllocator.eVehicleType vehicleType = (VehicleAllocator.eVehicleType)getValidUserInputChoice(1, 5);
+            string ownerPhoneNumber, ownerName, model;
+            Garage.InformationOfVehicle informationOfVehicle = null;
             Console.Write("Please enter the license number of the chosen vehicle: ");
             string licenseNumber = getValidStringInput();
-            bool carExistsInGarage = i_Garage.VehiclesInTheGarage.ContainsKey(licenseNumber);
 
-            Console.Write(@"Please choose the vehicle type:
-1. Electric car.
-2. Fuel car.
-3. Electric motorcycle.
-4. Fuel motorcycle
-5. Truck
-Choice: ");
-
-            if (!carExistsInGarage)
+            if (i_Garage.VehiclesInTheGarage.TryGetValue(licenseNumber, out informationOfVehicle))
             {
-                Vehicle newVehicle = VehicleAllocator.AllocateVehicle(vehicleType, licenseNumber);
-                completeVehicleInformation(ref newVehicle, vehicleType);
-                getOwnerInformation(out ownerName, out ownerPhoneNumber);
-                Garage.InformationOfVehicle informationOfVehicle = new Garage.InformationOfVehicle(ownerName, ownerPhoneNumber, newVehicle);
-                //i_Garage.VehiclesInTheGarage.Add(licenseNumber, informationOfVehicle); ?? Note: Maybe need to see who calls function, maybe check if car exists in dictionary by string license first
+                Console.WriteLine("This license number already exists in the garage, changing state to In Repair");
+                informationOfVehicle.State = Garage.InformationOfVehicle.eCarStateInGarage.InRepair;
             }
             else
             {
-                
+                //place to enter a presence if needed
+
+                this.printVehicleMenu();
+                model = getValidStringInput();
+                VehicleAllocator.eVehicleType vehicleType = (VehicleAllocator.eVehicleType)getValidUserInputChoice(1, 5);
+                Vehicle newVehicle = VehicleAllocator.AllocateVehicle(vehicleType, licenseNumber, model);
+                completeVehicleInformation(ref newVehicle, vehicleType);
+                getOwnerInformation(out ownerName, out ownerPhoneNumber);
+                informationOfVehicle = new Garage.InformationOfVehicle(ownerName, ownerPhoneNumber, newVehicle);
+                i_Garage.VehiclesInTheGarage.Add(licenseNumber, informationOfVehicle);
             }
         }
         //-----------------------------------------------------------------//
@@ -177,13 +184,14 @@ Choice: ");
                 {
                     if (!char.IsDigit(currentChar) || !char.IsLetter(currentChar)) 
                     {
-                        Console.Write("License number can only consist of letters and numbers, please input again: ");
+                        Console.Write("Input string can only consist of letters and numbers, please input again: ");
                         userStringInput = Console.ReadLine();
                         isInvalidString = true;
                         break;
                     }
-                }
+                }  
             }
+
             return userStringInput;
         }
     }

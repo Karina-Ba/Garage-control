@@ -34,17 +34,54 @@ namespace Ex03.GarageLogic
             };
             //-----------------------------------------------------------------//
             eCarStateInGarage m_State;
-            string m_NameOfOwner;
-            string m_PhoneNumber;
+            string m_OwnerName;
+            string m_OwnerPhoneNumber;
             Vehicle m_Vehicle;
             //-----------------------------------------------------------------//
             public InformationOfVehicle(string i_OwnerName, string i_PhoneNumber, Vehicle i_Vehicle)
             {
-                m_NameOfOwner = i_OwnerName;
-                m_PhoneNumber = i_PhoneNumber;
+                m_OwnerName = i_OwnerName;
+                m_OwnerPhoneNumber = i_PhoneNumber;
                 m_State = eCarStateInGarage.InRepair;
                 m_Vehicle = i_Vehicle;
             }
+            //-----------------------------------------------------------------//
+            public eCarStateInGarage State
+            {
+                get
+                {
+                    return this.m_State;
+                }
+                set
+                {
+                    this.m_State = value;
+                }
+            }
+            //-----------------------------------------------------------------//
+            public string OwnerName
+            {
+                get
+                {
+                    return this.m_OwnerName;
+                }
+                set
+                {
+                    this.m_OwnerName = value;
+                }
+            }
+            //-----------------------------------------------------------------//
+            public string OwnerPhoneNumber
+            {
+                get
+                {
+                    return this.m_OwnerPhoneNumber;
+                }
+                set
+                {
+                    this.m_OwnerPhoneNumber = value;
+                }
+            }
+            //-----------------------------------------------------------------//
         }
     }
 }

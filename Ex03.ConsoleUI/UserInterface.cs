@@ -234,9 +234,10 @@ Choice: ");
             bool found = false;
             int userChoice;
             string licenseNumber;
-            Garage.InformationOfVehicle vehicleInformation;
+            Garage.InformationOfVehicle vehicleInformation = null;
             Console.WriteLine("Please enter a License number: ");
             licenseNumber = Console.ReadLine();
+            o_Vehicle = null;
 
             while(!i_Garage.VehiclesInTheGarage.TryGetValue(licenseNumber, out vehicleInformation))
             {
@@ -244,25 +245,41 @@ Choice: ");
 1. Input again.
 2. Go back to menu.");
                 userChoice = getValidUserInputChoice(1, 2);
-                if(userChoice.Equals(1))
-                {
-                    break;
-                }
-                else
+                if (userChoice.Equals(1))
                 {
                     Console.WriteLine("Please enter a License number: ");
                     licenseNumber = Console.ReadLine();
                 }
+                else
+                {
+                    break;
+                }
             }
-
-            o_Vehicle = vehicleInformation.Vehicle;
+            if(vehicleInformation != null)
+            {
+                o_Vehicle = vehicleInformation.Vehicle;
+                found = true;
+            }
             return found;
+        }
+
+
+        private void printFuelMenu()
+        {
+            Console.Write(@"Please choose the fuel type:
+1. Octan95,
+2. Octan96,
+3. Octan98,
+4. Soler
+Choice: ");
         }
 
         private void fuelVehicle(Garage i_Garage)
         {
             Vehicle vehicleToFuel;
-            if(i_Garage.VehiclesInTheGarage.Count == 0 )
+            int userChoice;
+            int howMuchToAdd;
+            if(i_Garage.isEmptyGarage())
             {
                 Console.WriteLine("The garage is empty, returning to the main menu");
             }
@@ -276,13 +293,40 @@ Choice: ");
                 {
                     if(vehicleToFuel.Engine is Engine.FuelEngine)
                     {
+                        howMuchToAdd = getValidUserNumberInput("Please enter how much fuel you want to add to the vehicle");
                         Console.WriteLine("Please enter the type of fuel you want to add");
+                        this.printFuelMenu();
+                        userChoice = getValidUserInputChoice(1, 4);
+                        try
+                        {
+                            (vehicleToFuel.Engine as Engine.FuelEngine).Refuel(howMuchToAdd, (Engine.FuelEngine.eFuelType)userChoice);
+                        }
+                        catch(Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                     }
                 }
 
             }
         }
 
+        private int getValidUserNumberInput(string i_Message)
+        {
+            int numberToReturn;
+            string userInput;
+            Console.WriteLine(i_Message);
+            userInput = Console.ReadLine();
+
+            while(int.TryParse(userInput, out numberToReturn))
+            {
+                Console.WriteLine("Invalid number, pleasae try again: ");
+                userInput = Console.ReadLine();
+            }
+            return numberToReturn;
+        }
 
     }
+
+    
 }

@@ -46,6 +46,21 @@ namespace Ex03.GarageLogic
 
         }
         //-----------------------------------------------------------------//
-
+        public override void SetAnswersToVehicle(List<string> i_Answers)
+        {
+            Exception exception;
+            char userBool;//change name
+            float baggageCapacity;
+            if(!char.TryParse(i_Answers[0], out userBool))
+            {
+                exception = new FormatException("Format of input of the hazardous goods isn't valid, please try again: ");
+                exception.Source = "0";
+            }
+            else if(!userBool.Equals('Y') || !userBool.Equals('y') 
+                || !userBool.Equals('N') || !userBool.Equals('n'))
+            {
+                //what kind of exeption?
+            }
+        }
     }
 }

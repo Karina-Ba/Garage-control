@@ -63,7 +63,7 @@ namespace Ex03.GarageLogic
         {
             Exception exception = null;
             int colorChoice = -1, amountOfDoors = -1;
-
+            //need to be in try??
             if (!int.TryParse(i_Answers[0], out colorChoice))
             {
                 exception = new FormatException("Format of input of the color isn't valid, please try again: ");

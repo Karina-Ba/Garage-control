@@ -7,10 +7,10 @@ namespace Ex03.GarageLogic
     {
         public enum eLicenseType
         {
-            A,
-            A1,
-            AA,
-            B
+            A = 1,
+            A1 = 2,
+            AA = 3,
+            B = 4
         };
         //-----------------------------------------------------------------//
         private eLicenseType m_License;
@@ -58,6 +58,30 @@ namespace Ex03.GarageLogic
 
         }
         //-----------------------------------------------------------------//
-
+        public override void SetAnswersToVehicle(List<string> i_Answers)
+        {
+            Exception exception = null;
+            int licenseType = -1, engineVolume = -1;
+            if (!int.TryParse(i_Answers[0], out licenseType))
+            {
+                exception = new FormatException("Format of input of the license type is't valid, please try again: ");
+                exception.Source = "0";
+            }
+            else if (ValueOutOfRangeException.ValueOutOfRange(licenseType, 4, 1))
+            {
+                exception = new ValueOutOfRangeException(4, 1, "License type for the motorcycle is out of range, please try again: ", exception);
+                exception.Source = "0";
+            }
+            if (!int.TryParse(i_Answers[1], out engineVolume))
+            {
+                exception = new FormatException("Format of input engine volume isn't valid, please try again: ", exception);
+                exception.Source = "1";
+            }
+            else if (ValueOutOfRangeException.ValueOutOfRange(engineVolume, 1, 1500))//google it
+            {
+                exception = new ValueOutOfRangeException(1500, 1, "Engine volume for the motorcycle is out of range, please try again: ");
+                exception.Source = "1";
+            }
+        }
     }
 }

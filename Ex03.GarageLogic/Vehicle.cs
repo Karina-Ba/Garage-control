@@ -10,7 +10,7 @@ namespace Ex03.GarageLogic
         private string m_LicenseNumber; 
         private readonly List<Wheel> m_Wheels; 
         private float m_EnergyPercentage; //Need
-        private string m_Model;           //Need
+        private string m_Model;           //Need,   Why? 
         //-----------------------------------------------------------------//
         public Vehicle(Engine i_Engine, string i_LicenseNumber, int i_NumberOfWheels, float i_MaxAirPressure)
         {

@@ -114,11 +114,24 @@ namespace Ex03.GarageLogic
                 }
             }
             //-----------------------------------------------------------------//
-            public void Refuel(float i_FuelToAdd)
+            public void Refuel(float i_FuelToAdd, eFuelType i_FuelType)
             {
+                string errorMessage;
+                if (this.m_FuelType != i_FuelType)
+                {
+                    errorMessage = "Invalid Fuel type";
+                    throw new ArgumentException(errorMessage);
+                }
+                this.m_FuelLeft += i_FuelToAdd;
 
+                if (this.m_FuelLeft > this.m_MaxFuelCapacity)
+                {
+                    errorMessage = "Maximum battery charge exceeded";
+                    this.m_FuelLeft -= i_FuelToAdd;
+                    throw new ValueOutOfRangeException(this.m_MaxFuelCapacity, 0, errorMessage);
+                }
             }
+            //-----------------------------------------------------------------//
         }
-        //-----------------------------------------------------------------//
     }
 }

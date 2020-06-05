@@ -23,6 +23,11 @@ namespace Ex03.GarageLogic
             }
         }
         //-----------------------------------------------------------------//
+        public bool isEmptyGarage()
+        {
+            return this.m_VehiclesInTheGarage.Count == 0;
+        }
+        //-----------------------------------------------------------------//
         //Nested class
         public class InformationOfVehicle
         {
@@ -82,6 +87,17 @@ namespace Ex03.GarageLogic
                 }
             }
             //-----------------------------------------------------------------//
+            public Vehicle Vehicle
+            {
+                get
+                {
+                    return this.m_Vehicle;
+                }
+                set
+                {
+                    this.m_Vehicle = value;
+                }
+            }
         }
     }
 }

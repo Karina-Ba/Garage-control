@@ -59,18 +59,21 @@ namespace Ex03.GarageLogic
             else if(!answerBool.Equals('Y') || !answerBool.Equals('y') 
                 || !answerBool.Equals('N') || !answerBool.Equals('n'))
             {
-                exception = new ArgumentException("The argument you chose is invalid, please try again: ", exception);
+                exception = new ArgumentException("The argument you chose is invalid, please try again: ");
                 exception.Source = "0";
             }
 
             if (!float.TryParse(i_Answers[1], out baggageCapacity))
             {
-                exception = new FormatException("Format of input of the hazardous goods isn't valid, please try again: ")
+                exception = new FormatException("Format of input of the hazardous goods isn't valid, please try again: ", exception);
+                exception.Source = "1";
             }
-            //Matan need to continue!
-
-
-
+            else if(BaggageCapacity < 0)
+            {
+                exception = ;//Wait for guy answer
+                exception.Source = "1";
+                
+            }
             if (exception != null)
             {
                 throw exception;

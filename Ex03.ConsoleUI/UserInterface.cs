@@ -194,5 +194,95 @@ Choice: ");
 
             return userStringInput;
         }
+        //-----------------------------------------------------------------//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           //--------------------------------------------------------Matan Era---------------------------------------------//
+           //No entry for working people
+           //guarded by a furious Pug dog("Woof woof")
+        private bool getValidVehicleFromGarage(Garage i_Garage, out Vehicle o_Vehicle)
+        {
+            bool found = false;
+            int userChoice;
+            string licenseNumber;
+            Garage.InformationOfVehicle vehicleInformation;
+            Console.WriteLine("Please enter a License number: ");
+            licenseNumber = Console.ReadLine();
+
+            while(!i_Garage.VehiclesInTheGarage.TryGetValue(licenseNumber, out vehicleInformation))
+            {
+                Console.WriteLine(@"Invalid license plate. 
+1. Input again.
+2. Go back to menu.");
+                userChoice = getValidUserInputChoice(1, 2);
+                if(userChoice.Equals(1))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Please enter a License number: ");
+                    licenseNumber = Console.ReadLine();
+                }
+            }
+
+            o_Vehicle = vehicleInformation.Vehicle;
+            return found;
+        }
+
+        private void fuelVehicle(Garage i_Garage)
+        {
+            Vehicle vehicleToFuel;
+            if(i_Garage.VehiclesInTheGarage.Count == 0 )
+            {
+                Console.WriteLine("The garage is empty, returning to the main menu");
+            }
+            else
+            {
+                if(!getValidVehicleFromGarage(i_Garage, out vehicleToFuel))
+                {
+                    Console.WriteLine("Retrning to the main menu");
+                }
+                else
+                {
+                    if(vehicleToFuel.Engine is Engine.FuelEngine)
+                    {
+                        Console.WriteLine("Please enter the type of fuel you want to add");
+                    }
+                }
+
+            }
+        }
+
+
     }
 }

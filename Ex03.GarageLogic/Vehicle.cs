@@ -82,6 +82,20 @@ namespace Ex03.GarageLogic
         //-----------------------------------------------------------------//
         abstract public void SetAnswersToVehicle(List<string> answers);
         //-----------------------------------------------------------------//
+        public override string ToString()    
+        {
+            System.Text.StringBuilder vehicleInformation = new System.Text.StringBuilder();
+            int numOfWheels = this.m_Wheels.Capacity;
+            vehicleInformation.AppendFormat(@"License Number: {0}
+Model Name: {1}
+Wheels: ", this.m_LicenseNumber.ToString(), this.m_Model.ToString());
+            foreach (Wheel currentWheel in this.m_Wheels)
+            {
+                vehicleInformation.AppendLine(currentWheel.ToString());
+            }
+            return vehicleInformation.ToString();
+        }
+        //-----------------------------------------------------------------//
         //Nested class
         public class Wheel
         {
@@ -139,7 +153,16 @@ namespace Ex03.GarageLogic
                 }
             }
             //-----------------------------------------------------------------//
+            public override string ToString()
+            {
+                System.Text.StringBuilder information = new System.Text.StringBuilder() ;
+                information.AppendFormat(@"Maximum Air Presure: {0}
+Current Air Presure: {1}
+Manufactor: {2}", this.m_MaxAirPressureByManufactor.ToString(), this.m_CurrentAirPressure.ToString(), this.m_ManufactorName.ToString());
+                return information.ToString();
+            }
 
+            //-----------------------------------------------------------------//
         }
     }
 }

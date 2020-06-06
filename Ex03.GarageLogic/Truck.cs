@@ -65,21 +65,33 @@ namespace Ex03.GarageLogic
 
             if (!float.TryParse(i_Answers[1], out baggageCapacity))
             {
-                exception = new FormatException("Format of input of the hazardous goods isn't valid, please try again: ", exception);
+                exception = new FormatException("Format of input of the baggage capacity isn't valid, please try again: ", exception);
                 exception.Source = "1";
             }
             else if(BaggageCapacity < 0)
             {
-                exception = ;//Wait for guy answer
+                exception = new ValueOutOfRangeException(1000000, 1, "Baggage capacity for the truck is out of range, please try again:");
                 exception.Source = "1";
                 
             }
             if (exception != null)
             {
                 throw exception;
-
-            }
+            }          
+        }
+        //-----------------------------------------------------------------//
+        public override string ToString()
+        {
+            System.Text.StringBuilder truckDetails = new System.Text.StringBuilder();
+            truckDetails.Append(base.ToString());
+            truckDetails.AppendFormat(@"Truck Details:
+Hazardous Goods: {0}
+Baggage Capacity: {1}", this.m_IsTransportingHazardousGoods.ToString(), this.m_BaggageCapacity.ToString());
+            return truckDetails.ToString();
             
         }
+
+
+        //-----------------------------------------------------------------//
     }
 }

@@ -293,7 +293,7 @@ Choice: ");
                 {
                     if(vehicleToFuel.Engine is Engine.FuelEngine)
                     {
-                        howMuchToAdd = getValidUserNumberInput("Please enter how much fuel you want to add to the vehicle");
+                        howMuchToAdd = getValidUserPositiveNumberInput("Please enter how much fuel you want to add to the vehicle");
                         Console.WriteLine("Please enter the type of fuel you want to add");
                         this.printFuelMenu();
                         userChoice = getValidUserInputChoice(1, 4);
@@ -306,24 +306,72 @@ Choice: ");
                             Console.WriteLine(ex.Message);
                         }
                     }
+                    else
+                    {
+                        Console.WriteLine("This vehicle is not fuelable, returning to main menu");
+                    }
                 }
-
             }
         }
 
-        private int getValidUserNumberInput(string i_Message)
+        private int getValidUserPositiveNumberInput(string i_Message)
         {
             int numberToReturn;
             string userInput;
             Console.WriteLine(i_Message);
             userInput = Console.ReadLine();
 
-            while(int.TryParse(userInput, out numberToReturn))
+            while(!int.TryParse(userInput, out numberToReturn) || numberToReturn < 1)
             {
                 Console.WriteLine("Invalid number, pleasae try again: ");
                 userInput = Console.ReadLine();
             }
             return numberToReturn;
+        }
+
+        private void chargeVehicle(Garage i_Garage)
+        {
+            Vehicle vehicleToFuel;
+            int howMuchToAdd;
+            if (i_Garage.isEmptyGarage())
+            {
+                Console.WriteLine("The garage is empty, returning to the main menu");
+            }
+            else
+            {
+                if (!getValidVehicleFromGarage(i_Garage, out vehicleToFuel))
+                {
+                    Console.WriteLine("Retrning to the main menu");
+                }
+                else
+                {
+                    if (vehicleToFuel.Engine is Engine.ElectricEngine)
+                    {
+                        howMuchToAdd = getValidUserPositiveNumberInput("Please enter how much you want to charge the vehicle");
+                        try
+                        {
+                            (vehicleToFuel.Engine as Engine.ElectricEngine).ChargeBattery(howMuchToAdd);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("This vehicle is not chargeable, returning to main menu");
+                    }
+                }
+
+            }
+        }
+
+        private void printGarageVehicleInformation(Garage i_Garage)
+        {
+            foreach(Garage.InformationOfVehicle currentVehicle in i_Garage.VehiclesInTheGarage.Values)
+            {
+                Console.Write(currentVehicle.ToString());
+            }
         }
 
     }

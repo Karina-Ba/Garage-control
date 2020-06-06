@@ -93,7 +93,14 @@ namespace Ex03.GarageLogic
             }
         }
         //-----------------------------------------------------------------//
-        
+        public override string ToString()
+        {
+            System.Text.StringBuilder carDetails = new System.Text.StringBuilder();
+            carDetails.Append(base.ToString());
+            carDetails.AppendFormat(@"Color: {0}
+Number of Doors: {1}", this.m_Color.ToString(), this.m_NumberOfDoors.ToString());
+            return carDetails.ToString();
+        }
         //-----------------------------------------------------------------//
     }
 }

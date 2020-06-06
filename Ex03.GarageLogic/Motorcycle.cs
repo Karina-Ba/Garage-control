@@ -88,5 +88,17 @@ namespace Ex03.GarageLogic
                 throw exception;
             }
         }
+        //-----------------------------------------------------------------//
+        public override string ToString()
+        {
+            System.Text.StringBuilder motorcycleDetails = new System.Text.StringBuilder();
+            motorcycleDetails.Append(base.ToString());
+            motorcycleDetails.AppendFormat(@"Motorcycle Details: 
+License Type: {0}
+Engine Volume: {1}", this.m_License.ToString(), this.m_EngineCapacity.ToString());
+            return motorcycleDetails.ToString();
+        }
+
+        //-----------------------------------------------------------------//
     }
 }

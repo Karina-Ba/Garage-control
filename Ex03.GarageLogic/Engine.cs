@@ -55,6 +55,16 @@ namespace Ex03.GarageLogic
                     throw new ValueOutOfRangeException(this.m_MaxBatteryTime, 0, errorMessage); 
                 }
             }
+
+            //-----------------------------------------------------------------//
+            public override string ToString()
+            {
+                StringBuilder information = new StringBuilder();
+                information.AppendFormat(@"Electric engine:
+Maximum batteryTime: {0}
+Battery time left: {1}", this.m_MaxBatteryTime.ToString(), this.m_BatteryTimeLeft.ToString());
+                return information.ToString();
+            }
         }
         //-----------------------------------------------------------------//
         //Nested class
@@ -131,6 +141,17 @@ namespace Ex03.GarageLogic
                     throw new ValueOutOfRangeException(this.m_MaxFuelCapacity, 0, errorMessage);
                 }
             }
+            //-----------------------------------------------------------------//
+            public override string ToString()
+            {
+                StringBuilder information = new StringBuilder();
+                information.AppendFormat(@"Fuel Engine:
+Fuel type: {0}
+Maximum fuel capacity: {1}
+Fuel left: {2}", this.m_FuelType.ToString(), this.m_MaxFuelCapacity.ToString(), this.FuelLeft.ToString());
+                return information.ToString();
+            }
+
             //-----------------------------------------------------------------//
         }
     }

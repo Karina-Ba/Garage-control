@@ -98,6 +98,18 @@ namespace Ex03.GarageLogic
                     this.m_Vehicle = value;
                 }
             }
+            //-----------------------------------------------------------------//
+            public override string ToString()
+            {
+                StringBuilder vehicleInGarageDetails = new StringBuilder();
+                vehicleInGarageDetails.AppendFormat(@"Owner Information
+Name: {0}
+Phone Number: {1}", this.m_OwnerName, this.m_OwnerPhoneNumber);
+                vehicleInGarageDetails.Append(this.m_Vehicle.ToString());
+                vehicleInGarageDetails.AppendFormat("Vehicle's Status: {0}", this.m_State.ToString());
+                return vehicleInGarageDetails.ToString();
+            }
+            //-----------------------------------------------------------------//
         }
     }
 }

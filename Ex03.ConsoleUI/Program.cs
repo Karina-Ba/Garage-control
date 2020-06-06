@@ -9,7 +9,7 @@ namespace Ex03.ConsoleUI
     {
         static void Main()
         {
-            
+
         }
     }
 }

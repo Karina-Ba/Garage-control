@@ -28,17 +28,79 @@ namespace Ex03.GarageLogic
             return this.m_VehiclesInTheGarage.Count == 0;
         }
         //-----------------------------------------------------------------//
+        public StringBuilder GetLicensePlatesByState(InformationOfVehicle.eVehicleStateInGarage i_State)
+        {
+            StringBuilder KeyString = new StringBuilder();
+            int index = 0;
+
+            foreach (KeyValuePair<string, InformationOfVehicle> currentKey in this.m_VehiclesInTheGarage)
+            {
+                if (i_State == InformationOfVehicle.eVehicleStateInGarage.Default || currentKey.Value.State == i_State)
+                {
+                    ++index;
+                    KeyString.Append(index.ToString() + ". ");
+                    KeyString.Append(currentKey.Key);
+                    KeyString.Append(Environment.NewLine.ToString());
+                }
+            }
+
+            return KeyString;
+        }
+        //-----------------------------------------------------------------//
+        public void ChangeVehicleState(string i_LicenseNumber, InformationOfVehicle.eVehicleStateInGarage i_NewState)
+        {
+            try
+            {
+                InformationOfVehicle vehicleInformation = this.checkForLicensePlate(i_LicenseNumber); ;
+                vehicleInformation.State = i_NewState;
+            }
+            catch (ArgumentException exception)
+            {
+                throw exception;
+            }
+        }
+        //-----------------------------------------------------------------//
+        public void FillTiresToMax(string i_LicenseNumber)
+        {
+            try
+            {
+                InformationOfVehicle vehicleInformation = this.checkForLicensePlate(i_LicenseNumber);
+                vehicleInformation.Vehicle.FillTiresToMax();
+            }
+            catch (ArgumentException exception)
+            {
+                throw exception;
+            }
+        }
+        //-----------------------------------------------------------------//
+        private InformationOfVehicle checkForLicensePlate(string i_LicenseNumber)
+        {
+            InformationOfVehicle vehicleInformation;
+            bool foundVehicle = this.m_VehiclesInTheGarage.TryGetValue(i_LicenseNumber, out vehicleInformation);
+
+            if (!foundVehicle)
+            {
+                ArgumentException exception = new ArgumentException("Vehicle by this license number doesn't exist in the garage");
+                throw exception;
+            }
+            else
+            {
+                return vehicleInformation;
+            }
+        }
+        //-----------------------------------------------------------------//
         //Nested class
         public class InformationOfVehicle
         {
-            public enum eCarStateInGarage
+            public enum eVehicleStateInGarage
             {
+                Default,
                 InRepair,
                 Repaired,
                 Paid
             };
             //-----------------------------------------------------------------//
-            eCarStateInGarage m_State;
+            eVehicleStateInGarage m_State;
             string m_OwnerName;
             string m_OwnerPhoneNumber;
             Vehicle m_Vehicle;
@@ -47,11 +109,11 @@ namespace Ex03.GarageLogic
             {
                 m_OwnerName = i_OwnerName;
                 m_OwnerPhoneNumber = i_PhoneNumber;
-                m_State = eCarStateInGarage.InRepair;
+                m_State = eVehicleStateInGarage.InRepair;
                 m_Vehicle = i_Vehicle;
             }
             //-----------------------------------------------------------------//
-            public eCarStateInGarage State
+            public eVehicleStateInGarage State
             {
                 get
                 {

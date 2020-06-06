@@ -53,7 +53,8 @@ namespace Ex03.GarageLogic
 1. Red
 2. White
 3. Black
-4. Silver");
+4. Silver
+");
             questionString.Add("Please enter the car's number of doors: ");
             return questionString;
 

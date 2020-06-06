@@ -82,6 +82,17 @@ namespace Ex03.GarageLogic
         //-----------------------------------------------------------------//
         abstract public void SetAnswersToVehicle(List<string> answers);
         //-----------------------------------------------------------------//
+        public void FillTiresToMax()
+        {
+            float airToAdd;
+
+            foreach (Wheel wheel in this.m_Wheels)
+            {
+                airToAdd = wheel.MaxAirPressure - wheel.CurrentAirPressure;
+                wheel.InflateWheel(airToAdd);
+            }
+        }
+        //-----------------------------------------------------------------//
         public override string ToString()    
         {
             System.Text.StringBuilder vehicleInformation = new System.Text.StringBuilder();
@@ -141,7 +152,7 @@ Wheels: ", this.m_LicenseNumber.ToString(), this.m_Model.ToString());
                 }
             }
             //-----------------------------------------------------------------//
-            public void InflatingWheel(float i_AirToAdd)  //In progress
+            public void InflateWheel(float i_AirToAdd)  //In progress
             {
                 this.m_CurrentAirPressure += i_AirToAdd;
 

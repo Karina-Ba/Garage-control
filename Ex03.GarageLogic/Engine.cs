@@ -8,6 +8,11 @@ namespace Ex03.GarageLogic
 {
     public abstract class Engine
     {
+        public enum eEngineType
+        {
+            Fuel,
+            Electric
+        };
         //-----------------------------------------------------------------//
         //Nested class
         public class ElectricEngine: Engine
@@ -72,6 +77,7 @@ Battery time left: {1}", this.m_MaxBatteryTime.ToString(), this.m_BatteryTimeLef
         {
             public enum eFuelType
             {
+                Defualt = 0,
                 Octan95 = 1,
                 Octan96 = 2,
                 Octan98 = 3,

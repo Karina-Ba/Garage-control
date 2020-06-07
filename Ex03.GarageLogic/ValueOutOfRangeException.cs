@@ -10,20 +10,41 @@ namespace Ex03.GarageLogic
     {
         private float m_MaxValue;
         private float m_MinValue;
-        private string m_errorMessage;
-        private Exception m_InnerException;
         //-----------------------------------------------------------------//
-        public ValueOutOfRangeException(float i_MaxValue, float i_MinValue, string i_Message, Exception i_Exception = null) : base(i_Message)
+        public float MaxValue
+        {
+            get
+            {
+                return this.m_MaxValue;
+            }
+            set
+            {
+                this.m_MaxValue = value;
+            }
+        }
+        //-----------------------------------------------------------------//
+        public float MinValue
+        {
+            get
+            {
+                return this.m_MinValue;
+            }
+            set
+            {
+                this.m_MinValue = value;
+            }
+        }
+        //-----------------------------------------------------------------//
+        public ValueOutOfRangeException(float i_MaxValue, float i_MinValue, string i_Message, Exception i_Exception = null) : base(i_Message, i_Exception)
         {
             this.m_MaxValue = i_MaxValue;
             this.m_MinValue = i_MinValue;
-            this.m_errorMessage = i_Message;
-            this.m_InnerException = i_Exception;
         }
         //-----------------------------------------------------------------//
-        public static bool ValueOutOfRange(int i_Value, int i_MaxValue, int i_MinValue)
+        public static bool ValueOutOfRange(float i_Value, float i_MaxValue, float i_MinValue)
         {
             return (i_Value > i_MaxValue || i_Value < i_MinValue);
         }
+        //-----------------------------------------------------------------//
     }
 }

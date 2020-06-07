@@ -9,17 +9,16 @@ namespace Ex03.GarageLogic
     {
         public enum eColor
         {
-            Red,
-            White,
-            Black,
-            Silver    
+            Red = 1,
+            White = 2,
+            Black = 3,
+            Silver = 4    
         };
         //-----------------------------------------------------------------//
         private eColor m_Color;
         private int m_NumberOfDoors;
         //-----------------------------------------------------------------//
-        public Car(Engine i_Engine, string i_LicenceNumber, string i_Model, string i_WheelsManufactorName) :
-            base(i_Engine, i_LicenceNumber, i_Model, 4, 32, i_WheelsManufactorName)
+        public Car(Engine i_Engine, string i_LicenceNumber) : base(i_Engine, i_LicenceNumber, 4, 32)
         {
         }
         //-----------------------------------------------------------------//
@@ -65,7 +64,7 @@ namespace Ex03.GarageLogic
         {
             Exception exception = null;
             int colorChoice = -1, amountOfDoors = -1;
-            //need to be in try??
+
             if (!int.TryParse(i_Answers[0], out colorChoice))
             {
                 exception = new FormatException("Format of input of the color isn't valid, please try again: ");
@@ -88,20 +87,23 @@ namespace Ex03.GarageLogic
                 exception.Source = "1";
             }
 
-
             if (exception != null)
             {
                 throw exception;
             }
-            this.m_Color = (Car.eColor)colorChoice;
-            this.m_NumberOfDoors = amountOfDoors;
+            else
+            {
+                this.m_Color = (Car.eColor)colorChoice;
+                this.m_NumberOfDoors = amountOfDoors;
+            }
         }
         //-----------------------------------------------------------------//
         public override string ToString()
         {
-            System.Text.StringBuilder carDetails = new System.Text.StringBuilder();
+            StringBuilder carDetails = new System.Text.StringBuilder();
             carDetails.Append(base.ToString());
-            carDetails.AppendFormat(@"Color: {0}
+            carDetails.AppendFormat(@"
+Color: {0}
 Number of Doors: {1}
 ", this.m_Color.ToString(), this.m_NumberOfDoors.ToString());
             carDetails.Append(Environment.NewLine);

@@ -17,8 +17,7 @@ namespace Ex03.GarageLogic
         private eLicenseType m_License;
         private int m_EngineCapacity;
         //-----------------------------------------------------------------//
-        public Motorcycle(Engine i_Engine, string i_LicenseNumber, string i_Model, string i_WheelsManufactorName) :
-            base(i_Engine, i_LicenseNumber, i_Model, 2, 30, i_WheelsManufactorName)
+        public Motorcycle(Engine i_Engine, string i_LicenseNumber) :  base(i_Engine, i_LicenseNumber, 2, 30)
         {
         }
         //-----------------------------------------------------------------//
@@ -63,9 +62,10 @@ namespace Ex03.GarageLogic
         {
             Exception exception = null;
             int licenseType = -1, engineVolume = -1;
+
             if (!int.TryParse(i_Answers[0], out licenseType))
             {
-                exception = new FormatException("Format of input of the license type is't valid, please try again: ");
+                exception = new FormatException("Format of input of the license type isn't valid, please try again: ");
                 exception.Source = "0";
             }
             else if (ValueOutOfRangeException.ValueOutOfRange(licenseType, 4, 1))
@@ -78,7 +78,7 @@ namespace Ex03.GarageLogic
                 exception = new FormatException("Format of input engine volume isn't valid, please try again: ", exception);
                 exception.Source = "1";
             }
-            else if (ValueOutOfRangeException.ValueOutOfRange(engineVolume, 1, 1500))
+            else if (ValueOutOfRangeException.ValueOutOfRange(engineVolume, 1500, 1))
             {
                 exception = new ValueOutOfRangeException(1500, 1, "Engine volume for the motorcycle is out of range, please try again: ");
                 exception.Source = "1";
@@ -88,8 +88,11 @@ namespace Ex03.GarageLogic
             {
                 throw exception;
             }
-            this.m_License = (Motorcycle.eLicenseType)licenseType;
-            this.m_EngineCapacity = engineVolume;
+            else
+            {
+                this.m_License = (Motorcycle.eLicenseType)licenseType;
+                this.m_EngineCapacity = engineVolume;
+            }
         }
         //-----------------------------------------------------------------//
         public override string ToString()

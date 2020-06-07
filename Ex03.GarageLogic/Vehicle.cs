@@ -9,21 +9,15 @@ namespace Ex03.GarageLogic
         private Engine m_Engine; 
         private string m_LicenseNumber; 
         private readonly List<Wheel> m_Wheels; 
-        private float m_EnergyPercentage; 
         private string m_Model;           
+        private float m_EnergyPercentage; //ask user 
         //-----------------------------------------------------------------//
-        public Vehicle(Engine i_Engine, string i_LicenseNumber, string i_Model, int i_NumberOfWheels, float i_MaxAirPressure, string i_WheelsManufactorName)
+        public Vehicle(Engine i_Engine, string i_LicenseNumber, int i_NumberOfWheels, float i_MaxAirPressure)
         {
             this.m_Engine = i_Engine;
             this.m_LicenseNumber = i_LicenseNumber;
-            this.m_Model = i_Model;
             this.m_Wheels = new List<Wheel>(i_NumberOfWheels);
             this.m_EnergyPercentage = 0;
-
-            for (int i = 0; i < i_NumberOfWheels; ++i) 
-            {
-                this.m_Wheels.Add(new Wheel(i_MaxAirPressure, i_WheelsManufactorName));
-            }
         }
         //-----------------------------------------------------------------//
         public Engine Engine
@@ -117,11 +111,9 @@ Wheels:
             private float m_CurrentAirPressure;
             private string m_ManufactorName;
             //-----------------------------------------------------------------//
-            public Wheel(float i_MaxPressure, string i_ManufactorName)
+            public Wheel(float i_MaxPressure)
             {
                 this.m_MaxAirPressureByManufactor = i_MaxPressure;
-                this.m_ManufactorName = i_ManufactorName;
-                this.m_CurrentAirPressure = 0;
             }
             //-----------------------------------------------------------------//
             public float MaxAirPressure

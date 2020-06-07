@@ -9,8 +9,7 @@ namespace Ex03.GarageLogic
         private bool m_IsTransportingHazardousGoods;
         private float m_BaggageCapacity;
         //-----------------------------------------------------------------//
-        public Truck(Engine i_Engine, string i_LicenseNumber, string i_Model, string i_WheelsManufactorName) :
-            base(i_Engine, i_LicenseNumber, i_Model, 16, 28, i_WheelsManufactorName)
+        public Truck(Engine i_Engine, string i_LicenseNumber) :  base(i_Engine, i_LicenseNumber, 16, 28)
         {
         }
         //-----------------------------------------------------------------//
@@ -52,12 +51,13 @@ namespace Ex03.GarageLogic
             Exception exception = null;
             char answerBool;
             float baggageCapacity;
-            if(!char.TryParse(i_Answers[0], out answerBool))
+
+            if (!char.TryParse(i_Answers[0], out answerBool))
             {
                 exception = new FormatException("Format of input of the hazardous goods isn't valid, please try again: ");
                 exception.Source = "0";
             }
-            else if(!answerBool.Equals('Y') || !answerBool.Equals('y') 
+            else if (!answerBool.Equals('Y') || !answerBool.Equals('y') 
                 || !answerBool.Equals('N') || !answerBool.Equals('n'))
             {
                 exception = new ArgumentException("The argument you chose is invalid, please try again: ");
@@ -73,15 +73,30 @@ namespace Ex03.GarageLogic
             {
                 exception = new ValueOutOfRangeException(1000000, 1, "Baggage capacity for the truck is out of range, please try again:", exception);
                 exception.Source = "1";
-
             }
-         
+
             if (exception != null)
             {
                 throw exception;
-            }          
-            this.m_BaggageCapacity = baggageCapacity;
-            this.m_IsTransportingHazardousGoods = answerBool;
+            }
+            else
+            {
+                this.applyAnswersToMembers(answerBool, baggageCapacity);
+            }
+        }
+        //-----------------------------------------------------------------//
+        private void applyAnswersToMembers(char i_AnswerToBool, float i_BaggageCapacity)
+        {
+            if (i_AnswerToBool == 'Y' || i_AnswerToBool == 'y')
+            {
+                this.m_IsTransportingHazardousGoods = true;
+            }
+            else
+            {
+                this.m_IsTransportingHazardousGoods = false;
+            }
+
+            this.m_BaggageCapacity = i_BaggageCapacity;
         }
         //-----------------------------------------------------------------//
         public override string ToString()
@@ -95,8 +110,6 @@ Baggage Capacity: {1}", this.m_IsTransportingHazardousGoods.ToString(), this.m_B
             return truckDetails.ToString();
             
         }
-
-
         //-----------------------------------------------------------------//
     }
 }

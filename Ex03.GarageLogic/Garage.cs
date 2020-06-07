@@ -73,7 +73,7 @@ namespace Ex03.GarageLogic
             }
         }
         //-----------------------------------------------------------------//
-        private InformationOfVehicle checkForLicensePlate(string i_LicenseNumber)
+        public InformationOfVehicle checkForLicensePlate(string i_LicenseNumber)
         {
             InformationOfVehicle vehicleInformation;
             bool foundVehicle = this.m_VehiclesInTheGarage.TryGetValue(i_LicenseNumber, out vehicleInformation);
@@ -86,6 +86,41 @@ namespace Ex03.GarageLogic
             else
             {
                 return vehicleInformation;
+            }
+        }
+        //-----------------------------------------------------------------//
+        public void FillEngineUp(string i_LicensePlate, float i_HowMuchToIncrease, Engine.eEngineType i_EngineType, Engine.FuelEngine.eFuelType i_FuelType)
+        {
+            InformationOfVehicle vehicleToFuel = null;
+            
+            try
+            {
+                vehicleToFuel = this.checkForLicensePlate(i_LicensePlate);
+            }
+            catch (ArgumentException exception)
+            {
+                throw exception;
+            }
+            try
+            {
+                if (vehicleToFuel != null && vehicleToFuel.Vehicle.Engine is Engine.FuelEngine && i_EngineType == Engine.eEngineType.Fuel)
+                {
+
+                    (vehicleToFuel.Vehicle.Engine as Engine.FuelEngine).Refuel(i_HowMuchToIncrease, i_FuelType);
+
+                }
+                else if (vehicleToFuel != null && vehicleToFuel.Vehicle.Engine is Engine.ElectricEngine && i_EngineType == Engine.eEngineType.Electric)
+                {
+                    (vehicleToFuel.Vehicle.Engine as Engine.ElectricEngine).ChargeBattery(i_HowMuchToIncrease);
+                }
+                else
+                {
+                     throw new ArgumentException("Vehicle by this license number doesn't exist in the garage");
+                }
+            }
+            catch(ValueOutOfRangeException exception)
+            {
+                throw exception;
             }
         }
         //-----------------------------------------------------------------//

@@ -17,6 +17,10 @@ namespace Ex03.GarageLogic
             this.m_Engine = i_Engine;
             this.m_LicenseNumber = i_LicenseNumber;
             this.m_Wheels = new List<Wheel>(i_NumberOfWheels);
+            for(int i = 0 ; i < i_NumberOfWheels; ++i)
+            {
+                m_Wheels.Add(new Wheel(i_MaxAirPressure));
+            }
             this.m_EnergyPercentage = 0;
         }
         //-----------------------------------------------------------------//
@@ -83,23 +87,37 @@ namespace Ex03.GarageLogic
             foreach (Wheel wheel in this.m_Wheels)
             {
                 airToAdd = wheel.MaxAirPressure - wheel.CurrentAirPressure;
-                wheel.InflateWheel(airToAdd);
+                try
+                {
+                    wheel.InflateWheel(airToAdd);
+                }
+                catch(ValueOutOfRangeException exception)
+                {
+                    throw exception;
+                }
             }
         }
         //-----------------------------------------------------------------//
         public override string ToString()    
         {
-            System.Text.StringBuilder vehicleInformation = new System.Text.StringBuilder();
-            int numOfWheels = this.m_Wheels.Capacity;
+            StringBuilder vehicleInformation = new StringBuilder();
+            int index = 0;
             vehicleInformation.AppendFormat(@"
 License Number: {0}
 Model Name: {1}
+
 Wheels:
-", this.m_LicenseNumber.ToString(), this.m_Model.ToString());
+", 
+            this.m_LicenseNumber.ToString(),
+            this.m_Model.ToString());
+
             foreach (Wheel currentWheel in this.m_Wheels)
             {
+                ++index;
+                vehicleInformation.Append(index.ToString() + ". ");
                 vehicleInformation.AppendLine(currentWheel.ToString());
             }
+
             vehicleInformation.Append(this.m_Engine.ToString());
             return vehicleInformation.ToString();
         }
@@ -148,7 +166,7 @@ Wheels:
                 }
             }
             //-----------------------------------------------------------------//
-            public void InflateWheel(float i_AirToAdd)  //In progress
+            public void InflateWheel(float i_AirToAdd) 
             {
                 this.m_CurrentAirPressure += i_AirToAdd;
 
@@ -156,16 +174,20 @@ Wheels:
                 {
                     string errorMessage = "Maximum air pressure in tire exceeded";
                     this.m_CurrentAirPressure -= i_AirToAdd;
-                    throw new ValueOutOfRangeException(this.m_MaxAirPressureByManufactor, 0, errorMessage); //add string with proper message
+                    throw new ValueOutOfRangeException(this.m_MaxAirPressureByManufactor, 0, errorMessage);
                 }
             }
             //-----------------------------------------------------------------//
             public override string ToString()
             {
                 StringBuilder information = new StringBuilder() ;
-                information.AppendFormat(@"   Maximum Air Presure: {0}
+                information.AppendFormat(@"
+    Maximum Air Presure: {0}
     Current Air Presure: {1}
-    Manufactor: {2}", this.m_MaxAirPressureByManufactor.ToString(), this.m_CurrentAirPressure.ToString(), this.m_ManufactorName.ToString());
+    Manufactor: {2}",
+                this.m_MaxAirPressureByManufactor.ToString(),
+                this.m_CurrentAirPressure.ToString(),
+                this.m_ManufactorName.ToString());
                 information.Append(Environment.NewLine);
                 return information.ToString();
             }

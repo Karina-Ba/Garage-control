@@ -51,7 +51,7 @@ namespace Ex03.GarageLogic
         {
             try
             {
-                InformationOfVehicle vehicleInformation = this.checkForLicensePlate(i_LicenseNumber); ;
+                InformationOfVehicle vehicleInformation = this.CheckForLicensePlate(i_LicenseNumber); ;
                 vehicleInformation.State = i_NewState;
             }
             catch (ArgumentException exception)
@@ -60,20 +60,20 @@ namespace Ex03.GarageLogic
             }
         }
         //-----------------------------------------------------------------//
-        public void FillTiresToMax(string i_LicenseNumber)
+        public void FillTiresToMaxByLicensePlate(string i_LicenseNumber)
         {
             try
             {
-                InformationOfVehicle vehicleInformation = this.checkForLicensePlate(i_LicenseNumber);
+                InformationOfVehicle vehicleInformation = this.CheckForLicensePlate(i_LicenseNumber);
                 vehicleInformation.Vehicle.FillTiresToMax();
             }
-            catch (ArgumentException exception)
+            catch (Exception exception)
             {
                 throw exception;
             }
         }
         //-----------------------------------------------------------------//
-        public InformationOfVehicle checkForLicensePlate(string i_LicenseNumber)
+        public InformationOfVehicle CheckForLicensePlate(string i_LicenseNumber)
         {
             InformationOfVehicle vehicleInformation;
             bool foundVehicle = this.m_VehiclesInTheGarage.TryGetValue(i_LicenseNumber, out vehicleInformation);
@@ -95,7 +95,7 @@ namespace Ex03.GarageLogic
             
             try
             {
-                vehicleToFuel = this.checkForLicensePlate(i_LicensePlate);
+                vehicleToFuel = this.CheckForLicensePlate(i_LicensePlate);
             }
             catch (ArgumentException exception)
             {
@@ -115,10 +115,10 @@ namespace Ex03.GarageLogic
                 }
                 else
                 {
-                     throw new ArgumentException("Vehicle by this license number doesn't exist in the garage");
+                     throw new ArgumentException("Vehicle by this license number doesn't exist in the garage" + Environment.NewLine); ///THIS CHANGE MESSAGE
                 }
             }
-            catch(ValueOutOfRangeException exception)
+            catch (ValueOutOfRangeException exception)
             {
                 throw exception;
             }
@@ -199,12 +199,12 @@ namespace Ex03.GarageLogic
             public override string ToString()
             {
                 StringBuilder vehicleInGarageDetails = new StringBuilder();
-                vehicleInGarageDetails.AppendFormat(@"Owner Information
-Name: {0}
-Phone Number: {1}
+                vehicleInGarageDetails.AppendFormat(@"Owner information:
+    Name: {0}
+    Phone Number: {1}
 ", this.m_OwnerName, this.m_OwnerPhoneNumber);
                 vehicleInGarageDetails.AppendFormat(this.m_Vehicle.ToString());
-                vehicleInGarageDetails.AppendFormat("Vehicle's Status: {0}", this.m_State.ToString());
+                vehicleInGarageDetails.AppendFormat("Vehicle's status: {0}" + Environment.NewLine, this.m_State.ToString());
                 return vehicleInGarageDetails.ToString();
             }
             //-----------------------------------------------------------------//

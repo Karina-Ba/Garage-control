@@ -90,5 +90,27 @@ namespace Ex03.GarageLogic
                     break;
             }
         }
+        //-----------------------------------------------------------------//
+        public static void SetEnergyPrecentage(Vehicle i_Vehicle)
+        {
+            if (i_Vehicle.Engine is Engine.FuelEngine)
+            {
+                i_Vehicle.EnergyPrecentage = ((i_Vehicle.Engine as Engine.FuelEngine).FuelLeft / (i_Vehicle.Engine as Engine.FuelEngine).MaxFuelCapacity) * 100f;
+            }
+            else
+            {
+                i_Vehicle.EnergyPrecentage = ((i_Vehicle.Engine as Engine.ElectricEngine).BatteryTimeLeft / (i_Vehicle.Engine as Engine.ElectricEngine).BatteryTimeLeft) * 100f;
+            }
+        }
+        //-----------------------------------------------------------------//
+        public static void SetVehicleWheels(string i_ManufactorName, float i_CurrentAirPressure, Vehicle i_Vehicle)
+        {
+            foreach (Vehicle.Wheel currentWheel in i_Vehicle.Wheels)
+            {
+                currentWheel.ManufactorName = i_ManufactorName;
+                currentWheel.CurrentAirPressure = i_CurrentAirPressure;
+            }
+        }
+        //-----------------------------------------------------------------//
     }
 }

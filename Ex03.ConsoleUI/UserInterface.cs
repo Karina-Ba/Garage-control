@@ -135,7 +135,7 @@ Choice: ");
                 i_Garage.VehiclesInTheGarage.Add(licenseNumber, informationOfVehicle);
             }
         }
-
+        //-----------------------------------------------------------------//
         private Garage.InformationOfVehicle fillInformationForVehicle(Vehicle i_Vehicle, VehicleAllocator.eVehicleType i_VehicleType)
         {
             string ownerPhoneNumber, ownerName, manufactorName;
@@ -147,23 +147,19 @@ Choice: ");
             manufactorName = this.getValidStringInput();
             Console.Write("Please enter wheels current air pressure: ");
             currentAirPressure = this.getValidInputValueInRange(0f, i_Vehicle.Wheels.First().MaxAirPressure);
+            Console.Write("Please enter current energy left in your vehicle: ");
+
             if (i_Vehicle.Engine is Engine.FuelEngine)
             {
                 (i_Vehicle.Engine as Engine.FuelEngine).FuelLeft = getValidInputValueInRange(0, (i_Vehicle.Engine as Engine.FuelEngine).MaxFuelCapacity);
-                i_Vehicle.EnergyPrecentage = ((i_Vehicle.Engine as Engine.FuelEngine).FuelLeft / (i_Vehicle.Engine as Engine.FuelEngine).MaxFuelCapacity) * 100f;
             }
             else
             {
                 (i_Vehicle.Engine as Engine.ElectricEngine).BatteryTimeLeft = getValidInputValueInRange(0, (i_Vehicle.Engine as Engine.ElectricEngine).MaxBatteryTime);
-                i_Vehicle.EnergyPrecentage = ((i_Vehicle.Engine as Engine.ElectricEngine).BatteryTimeLeft / (i_Vehicle.Engine as Engine.ElectricEngine).BatteryTimeLeft) * 100f;
             }
- 
-            foreach (Vehicle.Wheel currentWheel in i_Vehicle.Wheels)
-            {
-                currentWheel.ManufactorName = manufactorName;
-                currentWheel.CurrentAirPressure = currentAirPressure;
-            }
-            
+
+            VehicleAllocator.SetEnergyPrecentage(i_Vehicle);
+            VehicleAllocator.SetVehicleWheels(manufactorName, currentAirPressure, i_Vehicle);
             completeVehicleInformation(ref i_Vehicle, i_VehicleType);
             getOwnerInformation(out ownerName, out ownerPhoneNumber);
             return new Garage.InformationOfVehicle(ownerName, ownerPhoneNumber, i_Vehicle);
@@ -313,13 +309,19 @@ Choice: ");
             {
                 try
                 {
-                    i_Garage.FillTiresToMax(licenseNumber);
+                    i_Garage.FillTiresToMaxByLicensePlate(licenseNumber);
                     userChoice = 2;
                     Console.WriteLine("Tires have been inflated to the maximum capacity successfully!");
+                }
+                catch(ArgumentException exception)
+                {
+                    Console.WriteLine(exception.Message);
+                    userChoice = this.printWrongInputMenuGetUserInput();
                 }
                 catch (ValueOutOfRangeException exception)
                 {
                     Console.WriteLine(exception.Message);
+                    Console.WriteLine("The value range is between {0} to {1}", exception.MinValue, exception.MaxValue);
                     userChoice = this.printWrongInputMenuGetUserInput();
                 }
             }
@@ -411,13 +413,13 @@ Choice: ");
         //-----------------------------------------------------------------//
         private void powerUpVehicle(Garage i_Garage, Engine.eEngineType i_EngineType)
         {
-            string licenseNumber = this.getLicenseNumberFromUser();
             int userChoice = 1, userFuelType = 0;
 
             while(userChoice == 1)
             {
                 try
                 {
+                    string licenseNumber = this.getLicenseNumberFromUser();
                     if (i_EngineType == Engine.eEngineType.Fuel)
                     {
                         Console.WriteLine("Please enter the type of fuel you want to add");
@@ -425,10 +427,12 @@ Choice: ");
                         userFuelType = (int)getValidInputValueInRange(1, 4);
                     }
 
+                    Console.Write("Please enter the amount you want to power the engine: ");
                     float howMuchToAdd = this.getValidInputValueInRange(1, 120);
                     i_Garage.FillEngineUp(licenseNumber, howMuchToAdd, i_EngineType, (Engine.FuelEngine.eFuelType)userFuelType);
                     userChoice = 2;
                     Console.WriteLine("Engine of vehicle succesfully filled up");
+                    this.backToMenuPause();
                 }
                 catch(Exception exception)
                 {
@@ -455,7 +459,7 @@ Choice: ");
         private void printVehicleInformationFromGarage(Garage i_Garage)
         {           
             string licenseNumber = this.getLicenseNumberFromUser();
-            Garage.InformationOfVehicle userVehicle = i_Garage.checkForLicensePlate(licenseNumber);
+            Garage.InformationOfVehicle userVehicle = i_Garage.CheckForLicensePlate(licenseNumber);
             Console.WriteLine(userVehicle.ToString());
             this.backToMenuPause();
    

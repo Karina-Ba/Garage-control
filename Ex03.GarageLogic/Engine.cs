@@ -66,8 +66,10 @@ namespace Ex03.GarageLogic
             {
                 StringBuilder information = new StringBuilder();
                 information.AppendFormat(@"Electric engine:
-Maximum batteryTime: {0}
-Battery time left: {1}", this.m_MaxBatteryTime.ToString(), this.m_BatteryTimeLeft.ToString());
+    Maximum batteryTime: {0}
+    Battery time left: {1}",
+                this.m_MaxBatteryTime.ToString(),
+                this.m_BatteryTimeLeft.ToString());
                 return information.ToString();
             }
         }
@@ -154,7 +156,10 @@ Battery time left: {1}", this.m_MaxBatteryTime.ToString(), this.m_BatteryTimeLef
                 information.AppendFormat(@"Fuel Engine:
     Fuel type: {0}
     Maximum fuel capacity: {1}
-    Fuel left: {2}", this.m_FuelType.ToString(), this.m_MaxFuelCapacity.ToString(), this.FuelLeft.ToString());
+    Fuel left: {2}", 
+                this.m_FuelType.ToString(),
+                this.m_MaxFuelCapacity.ToString(),
+                this.FuelLeft.ToString());
                 information.Append(Environment.NewLine);
                 return information.ToString();
             }

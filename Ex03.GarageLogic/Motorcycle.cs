@@ -52,7 +52,8 @@ namespace Ex03.GarageLogic
 1. A
 2. A1
 3. AA
-4. B");
+4. B
+");
             questionString.Add("Please enter the motorcycle's engine capacity: ");
             return questionString;
 

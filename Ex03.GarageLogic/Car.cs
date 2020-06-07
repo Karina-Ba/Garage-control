@@ -17,8 +17,8 @@ namespace Ex03.GarageLogic
         private eColor m_Color;
         private int m_NumberOfDoors;
         //-----------------------------------------------------------------//
-        public Car(Engine i_Engine, string i_LicenceNumber, string i_Model) :
-            base(i_Engine, i_LicenceNumber, i_Model, 4, 32)
+        public Car(Engine i_Engine, string i_LicenceNumber, string i_Model, string i_WheelsManufactorName) :
+            base(i_Engine, i_LicenceNumber, i_Model, 4, 32, i_WheelsManufactorName)
         {
         }
         //-----------------------------------------------------------------//

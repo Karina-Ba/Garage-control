@@ -16,8 +16,8 @@ namespace Ex03.GarageLogic
         private eLicenseType m_License;
         private int m_EngineCapacity;
         //-----------------------------------------------------------------//
-        public Motorcycle(Engine i_Engine, string i_LicenseNumber, string i_Model) :
-            base(i_Engine, i_LicenseNumber, i_Model, 2, 30)
+        public Motorcycle(Engine i_Engine, string i_LicenseNumber, string i_Model, string i_WheelsManufactorName) :
+            base(i_Engine, i_LicenseNumber, i_Model, 2, 30, i_WheelsManufactorName)
         {
         }
         //-----------------------------------------------------------------//

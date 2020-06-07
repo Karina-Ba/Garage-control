@@ -8,8 +8,8 @@ namespace Ex03.GarageLogic
         private bool m_IsTransportingHazardousGoods;
         private float m_BaggageCapacity;
         //-----------------------------------------------------------------//
-        public Truck(Engine i_Engine, string i_LicenseNumber, string i_Model) :
-            base(i_Engine, i_LicenseNumber, i_Model, 16, 28)
+        public Truck(Engine i_Engine, string i_LicenseNumber, string i_Model, string i_WheelsManufactorName) :
+            base(i_Engine, i_LicenseNumber, i_Model, 16, 28, i_WheelsManufactorName)
         {
         }
         //-----------------------------------------------------------------//

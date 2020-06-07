@@ -12,17 +12,17 @@ namespace Ex03.GarageLogic
         private float m_EnergyPercentage; 
         private string m_Model;           
         //-----------------------------------------------------------------//
-        public Vehicle(Engine i_Engine, string i_LicenseNumber, string i_Model, int i_NumberOfWheels, float i_MaxAirPressure)
+        public Vehicle(Engine i_Engine, string i_LicenseNumber, string i_Model, int i_NumberOfWheels, float i_MaxAirPressure, string i_WheelsManufactorName)
         {
             this.m_Engine = i_Engine;
-            this.m_LicenseNumber = LicenseNumber;
+            this.m_LicenseNumber = i_LicenseNumber;
             this.m_Model = i_Model;
             this.m_Wheels = new List<Wheel>(i_NumberOfWheels);
             this.m_EnergyPercentage = 0;
 
             for (int i = 0; i < i_NumberOfWheels; ++i) 
             {
-                this.m_Wheels.Add(new Wheel(i_MaxAirPressure));
+                this.m_Wheels.Add(new Wheel(i_MaxAirPressure, i_WheelsManufactorName));
             }
         }
         //-----------------------------------------------------------------//
@@ -97,9 +97,11 @@ namespace Ex03.GarageLogic
         {
             System.Text.StringBuilder vehicleInformation = new System.Text.StringBuilder();
             int numOfWheels = this.m_Wheels.Capacity;
-            vehicleInformation.AppendFormat(@"License Number: {0}
+            vehicleInformation.AppendFormat(@"
+License Number: {0}
 Model Name: {1}
-Wheels: ", this.m_LicenseNumber.ToString(), this.m_Model.ToString());
+Wheels:
+", this.m_LicenseNumber.ToString(), this.m_Model.ToString());
             foreach (Wheel currentWheel in this.m_Wheels)
             {
                 vehicleInformation.AppendLine(currentWheel.ToString());
@@ -114,9 +116,10 @@ Wheels: ", this.m_LicenseNumber.ToString(), this.m_Model.ToString());
             private float m_CurrentAirPressure;
             private string m_ManufactorName;
             //-----------------------------------------------------------------//
-            public Wheel(float i_MaxPressure)
+            public Wheel(float i_MaxPressure, string i_ManufactorName)
             {
                 this.m_MaxAirPressureByManufactor = i_MaxPressure;
+                this.m_ManufactorName = i_ManufactorName;
                 this.m_CurrentAirPressure = 0;
             }
             //-----------------------------------------------------------------//
@@ -167,9 +170,10 @@ Wheels: ", this.m_LicenseNumber.ToString(), this.m_Model.ToString());
             public override string ToString()
             {
                 System.Text.StringBuilder information = new System.Text.StringBuilder() ;
-                information.AppendFormat(@"Maximum Air Presure: {0}
-Current Air Presure: {1}
-Manufactor: {2}", this.m_MaxAirPressureByManufactor.ToString(), this.m_CurrentAirPressure.ToString(), this.m_ManufactorName.ToString());
+                information.AppendFormat(@"
+    Maximum Air Presure: {0}
+    Current Air Presure: {1}
+    Manufactor: {2}", this.m_MaxAirPressureByManufactor.ToString(), this.m_CurrentAirPressure.ToString(), this.m_ManufactorName.ToString());
                 return information.ToString();
             }
 

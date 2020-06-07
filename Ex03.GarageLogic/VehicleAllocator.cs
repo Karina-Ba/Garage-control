@@ -14,7 +14,7 @@ namespace Ex03.GarageLogic
             Truck = 5
         };
         //-----------------------------------------------------------------//
-        public static Vehicle AllocateVehicle(eVehicleType i_VehicleType, string i_LicenseNumber, string i_Model)
+        public static Vehicle AllocateVehicle(eVehicleType i_VehicleType, string i_LicenseNumber, string i_Model, string i_WheelsManufactorName)
         {
             Vehicle newVehicle;
             Engine newEngine;
@@ -23,23 +23,23 @@ namespace Ex03.GarageLogic
             {
                 case eVehicleType.ElectricCar:
                     newEngine = new Engine.ElectricEngine(2.1f);
-                    newVehicle = new Car(newEngine, i_LicenseNumber, i_Model);
+                    newVehicle = new Car(newEngine, i_LicenseNumber, i_Model, i_WheelsManufactorName);
                     break;
                 case eVehicleType.FueledCar:
                     newEngine = new Engine.FuelEngine(Engine.FuelEngine.eFuelType.Octan96, 60);
-                    newVehicle = new Car(newEngine,i_LicenseNumber, i_Model);
+                    newVehicle = new Car(newEngine,i_LicenseNumber, i_Model, i_WheelsManufactorName);
                     break;
                 case eVehicleType.ElectricMotorcycle:
                     newEngine = new Engine.ElectricEngine(1.2f);
-                    newVehicle = new Motorcycle(newEngine, i_LicenseNumber, i_Model);
+                    newVehicle = new Motorcycle(newEngine, i_LicenseNumber, i_Model, i_WheelsManufactorName);
                     break;
                 case eVehicleType.FueledMotorCycle:
                     newEngine = new Engine.FuelEngine(Engine.FuelEngine.eFuelType.Octan95,7f);
-                    newVehicle = new Motorcycle(newEngine, i_LicenseNumber, i_Model);
+                    newVehicle = new Motorcycle(newEngine, i_LicenseNumber, i_Model, i_WheelsManufactorName);
                     break;
                 case eVehicleType.Truck:
                     newEngine = new Engine.FuelEngine(Engine.FuelEngine.eFuelType.Soler, 120f);
-                    newVehicle = new Truck(newEngine,i_LicenseNumber, i_Model);
+                    newVehicle = new Truck(newEngine,i_LicenseNumber, i_Model, i_WheelsManufactorName);
                     break;
                 default:
                     newEngine = null;

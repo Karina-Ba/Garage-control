@@ -57,8 +57,8 @@ namespace Ex03.GarageLogic
                 exception = new FormatException("Format of input of the hazardous goods isn't valid, please try again: ");
                 exception.Source = "0";
             }
-            else if (!answerBool.Equals('Y') || !answerBool.Equals('y') 
-                || !answerBool.Equals('N') || !answerBool.Equals('n'))
+            else if (!answerBool.Equals('Y') && !answerBool.Equals('y') 
+                && !answerBool.Equals('N') && !answerBool.Equals('n'))
             {
                 exception = new ArgumentException("The argument you chose is invalid, please try again: ");
                 exception.Source = "0";

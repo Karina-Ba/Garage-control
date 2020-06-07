@@ -436,7 +436,7 @@ Choice: ");
                 }
                 catch(Exception exception)
                 {
-                    Console.Write(exception.Message);
+                    Console.WriteLine(exception.Message);
                     userChoice = this.printWrongInputMenuGetUserInput();
                 }
             }
@@ -466,6 +466,4 @@ Choice: ");
         }
         //-----------------------------------------------------------------//
     }
-
-
 }

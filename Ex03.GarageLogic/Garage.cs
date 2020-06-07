@@ -101,13 +101,12 @@ namespace Ex03.GarageLogic
             {
                 throw exception;
             }
+
             try
             {
                 if (vehicleToFuel != null && vehicleToFuel.Vehicle.Engine is Engine.FuelEngine && i_EngineType == Engine.eEngineType.Fuel)
                 {
-
                     (vehicleToFuel.Vehicle.Engine as Engine.FuelEngine).Refuel(i_HowMuchToIncrease, i_FuelType);
-
                 }
                 else if (vehicleToFuel != null && vehicleToFuel.Vehicle.Engine is Engine.ElectricEngine && i_EngineType == Engine.eEngineType.Electric)
                 {
@@ -115,10 +114,17 @@ namespace Ex03.GarageLogic
                 }
                 else
                 {
-                     throw new ArgumentException("Vehicle by this license number doesn't exist in the garage" + Environment.NewLine); ///THIS CHANGE MESSAGE
+                    if (i_EngineType == Engine.eEngineType.Fuel)
+                    {
+                        throw new ArgumentException("This Vehicle cannot be fueled" + Environment.NewLine);
+                    }
+                    else
+                    {
+                        throw new ArgumentException("This Vehicle cannot be charged" + Environment.NewLine); 
+                    }
                 }
             }
-            catch (ValueOutOfRangeException exception)
+            catch (Exception exception)
             {
                 throw exception;
             }

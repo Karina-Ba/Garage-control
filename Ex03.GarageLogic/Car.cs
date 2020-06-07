@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 
 namespace Ex03.GarageLogic
@@ -92,6 +93,8 @@ namespace Ex03.GarageLogic
             {
                 throw exception;
             }
+            this.m_Color = (Car.eColor)colorChoice;
+            this.m_NumberOfDoors = amountOfDoors;
         }
         //-----------------------------------------------------------------//
         public override string ToString()
@@ -99,7 +102,9 @@ namespace Ex03.GarageLogic
             System.Text.StringBuilder carDetails = new System.Text.StringBuilder();
             carDetails.Append(base.ToString());
             carDetails.AppendFormat(@"Color: {0}
-Number of Doors: {1}", this.m_Color.ToString(), this.m_NumberOfDoors.ToString());
+Number of Doors: {1}
+", this.m_Color.ToString(), this.m_NumberOfDoors.ToString());
+            carDetails.Append(Environment.NewLine);
             return carDetails.ToString();
         }
         //-----------------------------------------------------------------//

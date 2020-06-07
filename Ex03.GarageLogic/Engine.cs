@@ -146,9 +146,10 @@ Battery time left: {1}", this.m_MaxBatteryTime.ToString(), this.m_BatteryTimeLef
             {
                 StringBuilder information = new StringBuilder();
                 information.AppendFormat(@"Fuel Engine:
-Fuel type: {0}
-Maximum fuel capacity: {1}
-Fuel left: {2}", this.m_FuelType.ToString(), this.m_MaxFuelCapacity.ToString(), this.FuelLeft.ToString());
+    Fuel type: {0}
+    Maximum fuel capacity: {1}
+    Fuel left: {2}", this.m_FuelType.ToString(), this.m_MaxFuelCapacity.ToString(), this.FuelLeft.ToString());
+                information.Append(Environment.NewLine);
                 return information.ToString();
             }
 

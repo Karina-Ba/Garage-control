@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -68,25 +69,29 @@ namespace Ex03.GarageLogic
                 exception = new FormatException("Format of input of the baggage capacity isn't valid, please try again: ", exception);
                 exception.Source = "1";
             }
-            else if(BaggageCapacity < 0)
+            else if (BaggageCapacity < 0)
             {
-                exception = new ValueOutOfRangeException(1000000, 1, "Baggage capacity for the truck is out of range, please try again:");
+                exception = new ValueOutOfRangeException(1000000, 1, "Baggage capacity for the truck is out of range, please try again:", exception);
                 exception.Source = "1";
-                
+
             }
+         
             if (exception != null)
             {
                 throw exception;
             }          
+            this.m_BaggageCapacity = baggageCapacity;
+            this.m_IsTransportingHazardousGoods = answerBool;
         }
         //-----------------------------------------------------------------//
         public override string ToString()
         {
-            System.Text.StringBuilder truckDetails = new System.Text.StringBuilder();
+            StringBuilder truckDetails = new StringBuilder();
             truckDetails.Append(base.ToString());
             truckDetails.AppendFormat(@"Truck Details:
 Hazardous Goods: {0}
 Baggage Capacity: {1}", this.m_IsTransportingHazardousGoods.ToString(), this.m_BaggageCapacity.ToString());
+            truckDetails.Append(Environment.NewLine);
             return truckDetails.ToString();
             
         }

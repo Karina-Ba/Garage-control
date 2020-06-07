@@ -168,7 +168,7 @@ namespace Ex03.GarageLogic
 Name: {0}
 Phone Number: {1}
 ", this.m_OwnerName, this.m_OwnerPhoneNumber);
-                vehicleInGarageDetails.Append(this.m_Vehicle.ToString());
+                vehicleInGarageDetails.AppendFormat(this.m_Vehicle.ToString());
                 vehicleInGarageDetails.AppendFormat("Vehicle's Status: {0}", this.m_State.ToString());
                 return vehicleInGarageDetails.ToString();
             }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -106,6 +106,7 @@ Wheels:
             {
                 vehicleInformation.AppendLine(currentWheel.ToString());
             }
+            vehicleInformation.Append(this.m_Engine.ToString());
             return vehicleInformation.ToString();
         }
         //-----------------------------------------------------------------//
@@ -169,11 +170,11 @@ Wheels:
             //-----------------------------------------------------------------//
             public override string ToString()
             {
-                System.Text.StringBuilder information = new System.Text.StringBuilder() ;
-                information.AppendFormat(@"
-    Maximum Air Presure: {0}
+                StringBuilder information = new StringBuilder() ;
+                information.AppendFormat(@"   Maximum Air Presure: {0}
     Current Air Presure: {1}
     Manufactor: {2}", this.m_MaxAirPressureByManufactor.ToString(), this.m_CurrentAirPressure.ToString(), this.m_ManufactorName.ToString());
+                information.Append(Environment.NewLine);
                 return information.ToString();
             }
 

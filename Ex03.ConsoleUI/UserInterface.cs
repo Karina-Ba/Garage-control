@@ -518,15 +518,11 @@ Choice: ");
             }
             else
             {
-                if(!getValidVehicleFromGarage(i_Garage, out userVehicle))
-                {
-                    this.backToMenuPause();
-                }
-                else
+                if(getValidVehicleFromGarage(i_Garage, out userVehicle))
                 {
                     Console.WriteLine(userVehicle.ToString());
+                    this.backToMenuPause();
                 }
-
             }
         }
 

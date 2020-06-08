@@ -455,7 +455,6 @@ Choice: ");
                 }
 
                 userMenuChoice = this.printWrongInputMenuGetUserInput();
-                
             }
         }
         //-----------------------------------------------------------------//

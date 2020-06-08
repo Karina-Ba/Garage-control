@@ -76,7 +76,7 @@ namespace Ex03.GarageLogic
             else if (!o_AnswerBool.Equals('Y') && !o_AnswerBool.Equals('y')
                 && !o_AnswerBool.Equals('N') && !o_AnswerBool.Equals('n'))
             {
-                exception = new ArgumentException("The argument you chose is invalid, please try again: ");
+                exception = new ArgumentException("The argument you chose for the truck's hazardous carrying is invalid, please try again: ");
                 exception.Source = "0";
             }
 

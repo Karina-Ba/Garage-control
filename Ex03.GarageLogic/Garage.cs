@@ -109,9 +109,13 @@ namespace Ex03.GarageLogic
                     }
                 }
             }
-            catch (Exception exception)
+            catch (ArgumentException exception)
             {
                 throw exception;
+            }
+            catch(ValueOutOfRangeException exeption)
+            {
+                throw exeption;
             }
         }
         //-----------------------------------------Nested class----------------------------------------------//

@@ -8,6 +8,7 @@ namespace Ex03.ConsoleUI
 {
     public class UserInterface
     {
+        //-----------------------------------------------------------------//
         public void InitializeUI()
         {
             OpenGarage();
@@ -21,9 +22,9 @@ namespace Ex03.ConsoleUI
 
             while (!userExit)
             {
-                printMenu();
-                userInputChoice = (int)getValidInputValueInRange(1, 8);
-                doActionUserAsked(userInputChoice, out userExit, garage);
+                this.printMenu();
+                userInputChoice = (int)this.getValidInputValueInRange(1, 8);
+                this.doActionUserAsked(userInputChoice, ref userExit, garage);
                 Console.Clear();
             }
         }
@@ -31,6 +32,7 @@ namespace Ex03.ConsoleUI
         private void printMenu()
         {
             Console.Write(@"Menu options:
+
 1. Enter a vehicle to the garage.
 2. Show all the vehicle license plates admitted in the garage.
 3. Change vehicle status in the garage.
@@ -40,12 +42,13 @@ namespace Ex03.ConsoleUI
 7. Show all the information of a vehicle chosen by license plate number
 8. Exit garage.
 
-Please enter an action you would like to do: ");
+Please enter the choice number you would like do: ");
         }
         //-----------------------------------------------------------------//
         private void printVehicleMenu()
         {
             Console.Write(@"Please choose the vehicle type:
+
 1. Electric car.
 2. Fuel car.
 3. Electric motorcycle.
@@ -57,10 +60,11 @@ Choice: ");
         private int printMenuForLicensePlatesGetUserChoice()
         {
             Console.Write(@"Menu options:
+
 1. Filter by state in the garage
 2. No filtering
 Choice: ");
-            int choiceNum = (int)getValidInputValueInRange(1, 2);
+            int choiceNum = (int)this.getValidInputValueInRange(1, 2);
 
             return choiceNum;
         }
@@ -68,23 +72,34 @@ Choice: ");
         private int printWrongInputMenuGetUserInput()
         {
             Console.WriteLine(@"Incorrect input, please choose: 
+
 1. Input again
 2. Go back to menu
 Choice: ");
-            int choiceNum = (int)getValidInputValueInRange(1, 2);
+            int choiceNum = (int)this.getValidInputValueInRange(1, 2);
 
             return choiceNum;
         }
         //-----------------------------------------------------------------//
-        private void backToMenuPause()
+        private void printFuelMenu()
+        {
+            Console.Write(@"Please choose the fuel type:
+1. Octan95.
+2. Octan96.
+3. Octan98.
+4. Soler.
+Choice: ");
+        }
+        //-----------------------------------------------------------------//
+        private void printBackToMenuPause()
         {
             Console.WriteLine("Press any key to go back to menu");
             Console.ReadKey();
         }
         //-----------------------------------------------------------------//
-        private void doActionUserAsked(int i_UserChoice, out bool i_UserExit, Garage i_Garage)
+        private void doActionUserAsked(int i_UserChoice, ref bool io_UserExit, Garage i_Garage)
         {
-            i_UserExit = false;
+            io_UserExit = false;
             Console.Clear();
 
             switch(i_UserChoice)
@@ -93,7 +108,7 @@ Choice: ");
                     this.getVehicleInformation(i_Garage);
                     break;
                 case 2:
-                    this.printLicensePlatesInGarage(printMenuForLicensePlatesGetUserChoice(), i_Garage);
+                    this.printLicensePlatesInGarage((int)this.printMenuForLicensePlatesGetUserChoice(), i_Garage);
                     break;
                 case 3:
                     this.changeVehicleStateInGarage(i_Garage);
@@ -111,7 +126,7 @@ Choice: ");
                     this.printVehicleInformationFromGarage(i_Garage);
                     break;
                 case 8:
-                    i_UserExit = true;
+                    io_UserExit = true;
                     break;
             }
         }
@@ -119,7 +134,7 @@ Choice: ");
         private void getVehicleInformation(Garage i_Garage)
         {
             Garage.InformationOfVehicle informationOfVehicle = null;
-            string licenseNumber = getLicenseNumberFromUser();
+            string licenseNumber = this.getLicenseNumberFromUser();
 
             if (i_Garage.VehiclesInTheGarage.TryGetValue(licenseNumber, out informationOfVehicle))
             {
@@ -129,10 +144,12 @@ Choice: ");
             else
             {
                 this.printVehicleMenu();
-                VehicleAllocator.eVehicleType vehicleType = (VehicleAllocator.eVehicleType)getValidInputValueInRange(1, 5);
+                VehicleAllocator.eVehicleType vehicleType = (VehicleAllocator.eVehicleType)this.getValidInputValueInRange(1, 5);
                 Vehicle newVehicle = VehicleAllocator.AllocateVehicle(vehicleType, licenseNumber);
                 informationOfVehicle = this.fillInformationForVehicle(newVehicle, vehicleType);
                 i_Garage.VehiclesInTheGarage.Add(licenseNumber, informationOfVehicle);
+                Console.WriteLine("Vehicle added to the garage successfully!");
+                this.printBackToMenuPause();
             }
         }
         //-----------------------------------------------------------------//
@@ -142,11 +159,11 @@ Choice: ");
             float currentAirPressure;
 
             Console.Write("Please enter the model: ");
-            i_Vehicle.Model = getValidStringInput();
+            i_Vehicle.Model = this.getValidStringInputLettersAndNumbers();
             Console.Write("Please enter wheels manufactor name: ");
-            manufactorName = this.getValidStringInput();
+            manufactorName = this.getValidStringInputLettersAndNumbers();
             Console.Write("Please enter wheels current air pressure: ");
-            currentAirPressure = this.getValidInputValueInRange(0f, i_Vehicle.Wheels.First().MaxAirPressure);
+            currentAirPressure = this.getValidInputValueInRange(0, i_Vehicle.Wheels.First().MaxAirPressure);
             Console.Write("Please enter current energy left in your vehicle: ");
 
             if (i_Vehicle.Engine is Engine.FuelEngine)
@@ -160,15 +177,15 @@ Choice: ");
 
             VehicleAllocator.SetEnergyPrecentage(i_Vehicle);
             VehicleAllocator.SetVehicleWheels(manufactorName, currentAirPressure, i_Vehicle);
-            completeVehicleInformation(ref i_Vehicle, i_VehicleType);
-            getOwnerInformation(out ownerName, out ownerPhoneNumber);
+            this.completeVehicleInformation(ref i_Vehicle, i_VehicleType);
+            this.getOwnerInformation(out ownerName, out ownerPhoneNumber);
             return new Garage.InformationOfVehicle(ownerName, ownerPhoneNumber, i_Vehicle);
         }
         //-----------------------------------------------------------------//
         private string getLicenseNumberFromUser()
         {
             Console.Write("Please enter the license number of the vehicle: ");
-            string licenseNumber = getValidStringInput();
+            string licenseNumber = this.getValidStringInputLettersAndNumbers();
 
             return licenseNumber;
         }
@@ -176,16 +193,10 @@ Choice: ");
         private void completeVehicleInformation(ref Vehicle io_Vehicle, VehicleAllocator.eVehicleType i_VehicleType)
         {
             List<string> questions = VehicleAllocator.GetQuestionsAboutVehicle(i_VehicleType, io_Vehicle);
-            List<string> answers = new List<string>(questions.Capacity);
+            List<string> answers = this.getAnswersAboutVehicle(questions);
             bool isWrongAnswer = true;
 
-            foreach(string currentString in questions)
-            {
-                Console.Write(currentString);
-                answers.Add(Console.ReadLine());
-            }
-
-            while(isWrongAnswer)
+            while (isWrongAnswer)
             {
                 try
                 {
@@ -194,51 +205,69 @@ Choice: ");
                 }
                 catch (Exception exception)
                 {
-                    while (exception != null)
+                    if (exception is FormatException || exception is ValueOutOfRangeException)
                     {
-                        Console.WriteLine(exception.Message);
-                        answers[int.Parse(exception.Source)] = Console.ReadLine();
-                        exception = exception.InnerException;
+                        while (exception != null)
+                        {
+                            Console.WriteLine(exception.Message);
+                            answers[int.Parse(exception.Source)] = Console.ReadLine();
+                            exception = exception.InnerException;
+                        }
+                    }
+                    else
+                    {
+                        throw exception;
                     }
                 }
             }
         }
         //-----------------------------------------------------------------//
+        private List<string> getAnswersAboutVehicle(List<string> i_Questions)
+        {
+            List<string> answers = new List<string>(i_Questions.Capacity);
+
+            foreach (string currentString in i_Questions)
+            {
+                Console.Write(currentString);
+                answers.Add(Console.ReadLine());
+            }
+
+            return answers;
+        }
+        //-----------------------------------------------------------------//
         private void getOwnerInformation(out string o_ownerName, out string o_ownerPhoneNumber)
         {
-            uint ownerPhone;
+            o_ownerName = this.getValidStringInputLettersAndSpaces("Please Enter your name: ");
+            o_ownerPhoneNumber = this.getValidUserPositiveNumberInput("Please enter your phone number: ").ToString();
+        }
+        //-----------------------------------------------------------------//
+        private string getValidStringInputLettersAndSpaces(string i_Message)
+        {
+            Console.Write(i_Message);
+            string stringFromUser = Console.ReadLine();
             bool isValidNameString = false;
-            Console.Write("Please Enter your name: ");
-            o_ownerName = Console.ReadLine();
 
             while (!isValidNameString)
             {
                 isValidNameString = true;
-                foreach (char currentChar in o_ownerName)
+
+                foreach (char currentChar in stringFromUser)
                 {
                     if (!char.IsLetter(currentChar) && !(currentChar == ' '))
                     {
                         isValidNameString = false;
-                        Console.Write("Only letters and spaces allowed, please enter your name again: ");
-                        o_ownerName = Console.ReadLine();
+                        Console.Write("Only letters and spaces allowed, please enter again: ");
+                        stringFromUser = Console.ReadLine();
                         break;
                     }
                 }
             }
 
-            Console.Write("Please enter your phone number: ");
-            o_ownerPhoneNumber = Console.ReadLine();
-
-            while(!uint.TryParse(o_ownerPhoneNumber, out ownerPhone))
-            {
-                Console.Write("Phone can only consist of number, please enter again: ");
-                o_ownerPhoneNumber = Console.ReadLine();
-            }
+            return stringFromUser;
         }
         //-----------------------------------------------------------------//
         private void printLicensePlatesInGarage(int i_UserChoice, Garage i_Garage)
         {
-            StringBuilder licensePlates;
             Garage.InformationOfVehicle.eVehicleStateInGarage state = Garage.InformationOfVehicle.eVehicleStateInGarage.Default;
 
             if (i_UserChoice == 1)
@@ -246,18 +275,18 @@ Choice: ");
                 state = getVehicleStateFromUser(); 
             }
 
-            licensePlates = i_Garage.GetLicensePlatesByState(state);
+            string licensePlates = i_Garage.GetLicensePlatesByState(state);
 
             if (licensePlates.Length != 0)
             {
-                Console.WriteLine(licensePlates.ToString());
+                Console.WriteLine(licensePlates);
             }
             else
             {
                 Console.WriteLine("No vehicles with this state in the garage.");
             }
 
-            this.backToMenuPause();
+            this.printBackToMenuPause();
         }
         //-----------------------------------------------------------------//
         private Garage.InformationOfVehicle.eVehicleStateInGarage getVehicleStateFromUser()
@@ -270,7 +299,7 @@ Choice: ");
 2. Repaired
 3. Paid
 Choice: ");
-            int choiceNum = (int)getValidInputValueInRange(1, 3);
+            int choiceNum = (int)this.getValidInputValueInRange(1, 3);
             state = (Garage.InformationOfVehicle.eVehicleStateInGarage)choiceNum;
 
             return state;
@@ -289,6 +318,7 @@ Choice: ");
                     i_Garage.ChangeVehicleState(licenseNumber, state);
                     userChoice = 2;
                     Console.WriteLine("Vehicle state has been changed successfully!");
+                    this.printBackToMenuPause();
                 }
                 catch (ArgumentException exception)
                 {
@@ -296,8 +326,6 @@ Choice: ");
                     userChoice = this.printWrongInputMenuGetUserInput();
                 }
             }
-
-            this.backToMenuPause();
         }
         //-----------------------------------------------------------------//
         private void fillTiresOfVehicle(Garage i_Garage)
@@ -312,6 +340,7 @@ Choice: ");
                     i_Garage.FillTiresToMaxByLicensePlate(licenseNumber);
                     userChoice = 2;
                     Console.WriteLine("Tires have been inflated to the maximum capacity successfully!");
+                    this.printBackToMenuPause();
                 }
                 catch(ArgumentException exception)
                 {
@@ -325,11 +354,9 @@ Choice: ");
                     userChoice = this.printWrongInputMenuGetUserInput();
                 }
             }
-
-            this.backToMenuPause();
         }
         //-----------------------------------------------------------------//
-        private string getValidStringInput()
+        private string getValidStringInputLettersAndNumbers()
         {
             string userStringInput = Console.ReadLine(); ;
             bool isInvalidString = true;
@@ -341,7 +368,7 @@ Choice: ");
                 {
                     if (!char.IsDigit(currentChar) && !char.IsLetter(currentChar)) 
                     {
-                        Console.Write("Input string can only consist of letters and numbers, please input again: ");
+                        Console.Write("Input string can only consist of letters and numbers, please try again: ");
                         userStringInput = Console.ReadLine();
                         isInvalidString = true;
                         break;
@@ -367,93 +394,99 @@ Choice: ");
             return userInputNumerical;
         }
         //-----------------------------------------------------------------//
-        private bool getValidVehicleFromGarage(Garage i_Garage, out Garage.InformationOfVehicle o_VehicleInfromation)
-        {
-            bool found = false;
-            o_VehicleInfromation = null;
-            getVehicle(i_Garage, out o_VehicleInfromation);
+        //private bool getValidVehicleFromGarage(Garage i_Garage, out Garage.InformationOfVehicle o_VehicleInfromation)
+        //{
+        //    bool found = false;
+        //    o_VehicleInfromation = null;
+        //    this.getVehicle(i_Garage, out o_VehicleInfromation);
 
-            if (o_VehicleInfromation != null)
-            {
-                found = true;
-            }
+        //    if (o_VehicleInfromation != null)
+        //    {
+        //        found = true;
+        //    }
 
-            return found;
-        }
-        //-----------------------------------------------------------------//
-        private void getVehicle(Garage i_Garage, out Garage.InformationOfVehicle o_VehicleToReturn)
-        {
-            string licenseNumber = getLicenseNumberFromUser();
-            int userChoice;
+        //    return found;
+        //}
+        ////-----------------------------------------------------------------//
+        //private void getVehicle(Garage i_Garage, out Garage.InformationOfVehicle o_VehicleToReturn)
+        //{
+        //    string licenseNumber = this.getLicenseNumberFromUser();
+        //    int userChoice;
 
-            while (!i_Garage.VehiclesInTheGarage.TryGetValue(licenseNumber, out o_VehicleToReturn))
-            {
-                userChoice = this.printWrongInputMenuGetUserInput();
+        //    while (!i_Garage.VehiclesInTheGarage.TryGetValue(licenseNumber, out o_VehicleToReturn))
+        //    {
+        //        userChoice = this.printWrongInputMenuGetUserInput();
 
-                if (userChoice.Equals(1))
-                {
-                    licenseNumber = getLicenseNumberFromUser();
-                }
-                else
-                {
-                    break;
-                }
-            }
-        }
-        //-----------------------------------------------------------------//
-        private void printFuelMenu()
-        {
-            Console.Write(@"Please choose the fuel type:
-1. Octan95.
-2. Octan96.
-3. Octan98.
-4. Soler.
-Choice: ");
-        }
+        //        if (userChoice == 1)
+        //        {
+        //            licenseNumber = getLicenseNumberFromUser();
+        //        }
+        //        else
+        //        {
+        //            break;
+        //        }
+        //    }
+        //}
         //-----------------------------------------------------------------//
         private void powerUpVehicle(Garage i_Garage, Engine.eEngineType i_EngineType)
         {
-            int userChoice = 1, userFuelType = 0;
+            int userMenuChoice = 1, userFuelTypeChoice = 0;
+            float howMuchToAdd;
 
-            while(userChoice == 1)
+            while (userMenuChoice == 1)
             {
                 try
                 {
                     string licenseNumber = this.getLicenseNumberFromUser();
-                    if (i_EngineType == Engine.eEngineType.Fuel)
-                    {
-                        Console.WriteLine("Please enter the type of fuel you want to add");
-                        this.printFuelMenu();
-                        userFuelType = (int)getValidInputValueInRange(1, 4);
-                    }
-
-                    Console.Write("Please enter the amount you want to power the engine: ");
-                    float howMuchToAdd = this.getValidInputValueInRange(1, 120);
-                    i_Garage.FillEngineUp(licenseNumber, howMuchToAdd, i_EngineType, (Engine.FuelEngine.eFuelType)userFuelType);
-                    userChoice = 2;
+                    getFuelTypeFromUserAndHowMuchToAdd(out userFuelTypeChoice, out howMuchToAdd, i_EngineType);
+                    i_Garage.FillEngineUp(licenseNumber, howMuchToAdd, i_EngineType, (Engine.FuelEngine.eFuelType)userFuelTypeChoice);
+                    userMenuChoice = 2;
                     Console.WriteLine("Engine of vehicle succesfully filled up");
-                    this.backToMenuPause();
+                    this.printBackToMenuPause();
                 }
-                catch(Exception exception)
+                catch (FormatException exception)
                 {
                     Console.WriteLine(exception.Message);
-                    userChoice = this.printWrongInputMenuGetUserInput();
                 }
+                catch (ValueOutOfRangeException exception)
+                { 
+                    Console.WriteLine(exception.Message);
+                    Console.WriteLine("Value ranges are {0} to {1}", (exception as ValueOutOfRangeException).MinValue, (exception as ValueOutOfRangeException).MaxValue);
+                }
+
+                userMenuChoice = this.printWrongInputMenuGetUserInput();
+                
             }
+        }
+        //-----------------------------------------------------------------//
+        private void getFuelTypeFromUserAndHowMuchToAdd(out int o_UserChoiceFuel, out float o_HowMuchToAdd, Engine.eEngineType i_EngineType)
+        {
+            o_UserChoiceFuel = 0;
+
+            if (i_EngineType == Engine.eEngineType.Fuel)
+            {
+                Console.WriteLine("Please enter the type of fuel you want to add");
+                this.printFuelMenu();
+                o_UserChoiceFuel = (int)this.getValidInputValueInRange(1, 4);
+            }
+            
+            Console.Write("Please enter the amount you want to power the engine: ");
+            o_HowMuchToAdd = this.getValidInputValueInRange(1, 120);
         }
         //-----------------------------------------------------------------//
         private int getValidUserPositiveNumberInput(string i_Message)
         {
-            int numberToReturn;
-            string userInput;
             Console.WriteLine(i_Message);
-            userInput = Console.ReadLine();
-            while(!int.TryParse(userInput, out numberToReturn) || numberToReturn < 1) 
+            string userInput = Console.ReadLine();
+            int userInputNumeric;
+
+            while (!int.TryParse(userInput, out userInputNumeric) || userInputNumeric < 1) 
             {
-                Console.WriteLine("Invalid number, pleasae try again: ");
+                Console.WriteLine("Only positive numbers allowed, please try again: ");
                 userInput = Console.ReadLine();
             }
-            return numberToReturn;
+
+            return userInputNumeric;
         }
         //-----------------------------------------------------------------//
         private void printVehicleInformationFromGarage(Garage i_Garage)
@@ -461,8 +494,7 @@ Choice: ");
             string licenseNumber = this.getLicenseNumberFromUser();
             Garage.InformationOfVehicle userVehicle = i_Garage.CheckForLicensePlate(licenseNumber);
             Console.WriteLine(userVehicle.ToString());
-            this.backToMenuPause();
-   
+            this.printBackToMenuPause();
         }
         //-----------------------------------------------------------------//
     }

@@ -62,30 +62,8 @@ namespace Ex03.GarageLogic
         //-----------------------------------------------------------------//
         public override void SetAnswersToVehicle(List<string> i_Answers)
         {
-            Exception exception = null;
-            int colorChoice = -1, amountOfDoors = -1;
-
-            if (!int.TryParse(i_Answers[0], out colorChoice))
-            {
-                exception = new FormatException("Format of input of the color isn't valid, please try again: ");
-                exception.Source = "0";
-            }
-            else if (ValueOutOfRangeException.ValueOutOfRange(colorChoice, 4, 1))
-            {
-                exception = new ValueOutOfRangeException(4, 1, "Color choice for the car is out of range, please try again: ", exception);
-                exception.Source = "0";
-            }
-
-            if (!int.TryParse(i_Answers[1], out amountOfDoors))
-            {
-                exception = new FormatException("Format of input of the number of doors isn't valid, please try again: ", exception);
-                exception.Source = "1";
-            }
-            else if (ValueOutOfRangeException.ValueOutOfRange(amountOfDoors, 5, 2))
-            {
-                exception = new ValueOutOfRangeException(5, 1, "Number of doors for the car is out of range, please try again: ", exception);
-                exception.Source = "1";
-            }
+            int colorChoice, amountOfDoors;
+            Exception exception = findExceptionsInAnswers(i_Answers, out colorChoice, out amountOfDoors);
 
             if (exception != null)
             {
@@ -98,6 +76,36 @@ namespace Ex03.GarageLogic
             }
         }
         //-----------------------------------------------------------------//
+        private Exception findExceptionsInAnswers(List<string> i_Answers, out int o_ColorChoice, out int o_AmountOfDoors)
+        {
+            Exception exception = null;
+            o_ColorChoice = o_AmountOfDoors = -1;
+
+            if (!int.TryParse(i_Answers[0], out o_ColorChoice))
+            {
+                exception = new FormatException("Format of input of the color isn't valid, please try again: ");
+                exception.Source = "0";
+            }
+            else if (ValueOutOfRangeException.ValueOutOfRange(o_ColorChoice, 4, 1))
+            {
+                exception = new ValueOutOfRangeException(4, 1, "Color choice for the car is out of range, please try again: ", exception);
+                exception.Source = "0";
+            }
+
+            if (!int.TryParse(i_Answers[1], out o_AmountOfDoors))
+            {
+                exception = new FormatException("Format of input of the number of doors isn't valid, please try again: ", exception);
+                exception.Source = "1";
+            }
+            else if (ValueOutOfRangeException.ValueOutOfRange(o_AmountOfDoors, 5, 2))
+            {
+                exception = new ValueOutOfRangeException(5, 1, "Number of doors for the car is out of range, please try again: ", exception);
+                exception.Source = "1";
+            }
+
+            return exception;
+        }
+        //-----------------------------------------------------------------//
         public override string ToString()
         {
             StringBuilder carDetails = new System.Text.StringBuilder();
@@ -105,8 +113,11 @@ namespace Ex03.GarageLogic
             carDetails.AppendFormat(@"
 Color: {0}
 Number of Doors: {1}
-", this.m_Color.ToString(), this.m_NumberOfDoors.ToString());
+",
+            this.m_Color.ToString(),
+            this.m_NumberOfDoors.ToString());
             carDetails.Append(Environment.NewLine);
+
             return carDetails.ToString();
         }
         //-----------------------------------------------------------------//

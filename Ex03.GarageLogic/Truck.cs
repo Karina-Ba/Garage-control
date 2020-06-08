@@ -48,32 +48,9 @@ namespace Ex03.GarageLogic
         //-----------------------------------------------------------------//
         public override void SetAnswersToVehicle(List<string> i_Answers)
         {
-            Exception exception = null;
             char answerBool;
             float baggageCapacity;
-
-            if (!char.TryParse(i_Answers[0], out answerBool))
-            {
-                exception = new FormatException("Format of input of the hazardous goods isn't valid, please try again: ");
-                exception.Source = "0";
-            }
-            else if (!answerBool.Equals('Y') && !answerBool.Equals('y') 
-                && !answerBool.Equals('N') && !answerBool.Equals('n'))
-            {
-                exception = new ArgumentException("The argument you chose is invalid, please try again: ");
-                exception.Source = "0";
-            }
-
-            if (!float.TryParse(i_Answers[1], out baggageCapacity))
-            {
-                exception = new FormatException("Format of input of the baggage capacity isn't valid, please try again: ", exception);
-                exception.Source = "1";
-            }
-            else if (BaggageCapacity < 0)
-            {
-                exception = new ValueOutOfRangeException(1000000, 1, "Baggage capacity for the truck is out of range, please try again:", exception);
-                exception.Source = "1";
-            }
+            Exception exception = findExceptionsInAnswers(i_Answers, out answerBool, out baggageCapacity);
 
             if (exception != null)
             {
@@ -83,6 +60,38 @@ namespace Ex03.GarageLogic
             {
                 this.applyAnswersToMembers(answerBool, baggageCapacity);
             }
+        }
+        //-----------------------------------------------------------------//
+        private Exception findExceptionsInAnswers(List<string> i_Answers, out char o_AnswerBool, out float o_BaggageCapacity)
+        {
+            Exception exception = null;
+            o_AnswerBool = ' ';
+            o_BaggageCapacity = -1;
+
+            if (!char.TryParse(i_Answers[0], out o_AnswerBool))
+            {
+                exception = new FormatException("Format of input of the hazardous goods isn't valid, please try again: ");
+                exception.Source = "0";
+            }
+            else if (!o_AnswerBool.Equals('Y') && !o_AnswerBool.Equals('y')
+                && !o_AnswerBool.Equals('N') && !o_AnswerBool.Equals('n'))
+            {
+                exception = new ArgumentException("The argument you chose is invalid, please try again: ");
+                exception.Source = "0";
+            }
+
+            if (!float.TryParse(i_Answers[1], out o_BaggageCapacity))
+            {
+                exception = new FormatException("Format of input of the baggage capacity isn't valid, please try again: ", exception);
+                exception.Source = "1";
+            }
+            else if (o_BaggageCapacity < 0)
+            {
+                exception = new ValueOutOfRangeException(1000000, 1, "Baggage capacity for the truck is out of range, please try again:", exception);
+                exception.Source = "1";
+            }
+
+            return exception;
         }
         //-----------------------------------------------------------------//
         private void applyAnswersToMembers(char i_AnswerToBool, float i_BaggageCapacity)
@@ -105,10 +114,12 @@ namespace Ex03.GarageLogic
             truckDetails.Append(base.ToString());
             truckDetails.AppendFormat(@"Truck Details:
 Hazardous Goods: {0}
-Baggage Capacity: {1}", this.m_IsTransportingHazardousGoods.ToString(), this.m_BaggageCapacity.ToString());
+Baggage Capacity: {1}",
+            this.m_IsTransportingHazardousGoods.ToString(),
+            this.m_BaggageCapacity.ToString());
             truckDetails.Append(Environment.NewLine);
+
             return truckDetails.ToString();
-            
         }
         //-----------------------------------------------------------------//
     }

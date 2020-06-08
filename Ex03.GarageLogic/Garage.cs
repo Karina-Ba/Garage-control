@@ -23,12 +23,7 @@ namespace Ex03.GarageLogic
             }
         }
         //-----------------------------------------------------------------//
-        public bool isEmptyGarage()
-        {
-            return this.m_VehiclesInTheGarage.Count == 0;
-        }
-        //-----------------------------------------------------------------//
-        public StringBuilder GetLicensePlatesByState(InformationOfVehicle.eVehicleStateInGarage i_State)
+        public string GetLicensePlatesByState(InformationOfVehicle.eVehicleStateInGarage i_State)
         {
             StringBuilder KeyString = new StringBuilder();
             int index = 0;
@@ -39,19 +34,18 @@ namespace Ex03.GarageLogic
                 {
                     ++index;
                     KeyString.Append(index.ToString() + ". ");
-                    KeyString.Append(currentKey.Key);
-                    KeyString.Append(Environment.NewLine.ToString());
+                    KeyString.AppendLine(currentKey.Key);
                 }
             }
 
-            return KeyString;
+            return KeyString.ToString();
         }
         //-----------------------------------------------------------------//
         public void ChangeVehicleState(string i_LicenseNumber, InformationOfVehicle.eVehicleStateInGarage i_NewState)
         {
             try
             {
-                InformationOfVehicle vehicleInformation = this.CheckForLicensePlate(i_LicenseNumber); ;
+                InformationOfVehicle vehicleInformation = this.CheckForLicensePlate(i_LicenseNumber);
                 vehicleInformation.State = i_NewState;
             }
             catch (ArgumentException exception)
@@ -91,24 +85,15 @@ namespace Ex03.GarageLogic
         //-----------------------------------------------------------------//
         public void FillEngineUp(string i_LicensePlate, float i_HowMuchToIncrease, Engine.eEngineType i_EngineType, Engine.FuelEngine.eFuelType i_FuelType)
         {
-            InformationOfVehicle vehicleToFuel = null;
-            
             try
             {
-                vehicleToFuel = this.CheckForLicensePlate(i_LicensePlate);
-            }
-            catch (ArgumentException exception)
-            {
-                throw exception;
-            }
+                InformationOfVehicle vehicleToFuel = this.CheckForLicensePlate(i_LicensePlate);
 
-            try
-            {
-                if (vehicleToFuel != null && vehicleToFuel.Vehicle.Engine is Engine.FuelEngine && i_EngineType == Engine.eEngineType.Fuel)
+                if ((vehicleToFuel != null) && (vehicleToFuel.Vehicle.Engine is Engine.FuelEngine) && (i_EngineType == Engine.eEngineType.Fuel))
                 {
                     (vehicleToFuel.Vehicle.Engine as Engine.FuelEngine).Refuel(i_HowMuchToIncrease, i_FuelType);
                 }
-                else if (vehicleToFuel != null && vehicleToFuel.Vehicle.Engine is Engine.ElectricEngine && i_EngineType == Engine.eEngineType.Electric)
+                else if ((vehicleToFuel != null) && (vehicleToFuel.Vehicle.Engine is Engine.ElectricEngine) && (i_EngineType == Engine.eEngineType.Electric))
                 {
                     (vehicleToFuel.Vehicle.Engine as Engine.ElectricEngine).ChargeBattery(i_HowMuchToIncrease);
                 }
@@ -129,8 +114,7 @@ namespace Ex03.GarageLogic
                 throw exception;
             }
         }
-        //-----------------------------------------------------------------//
-        //Nested class
+        //-----------------------------------------Nested class----------------------------------------------//
         public class InformationOfVehicle
         {
             public enum eVehicleStateInGarage
@@ -141,10 +125,10 @@ namespace Ex03.GarageLogic
                 Paid
             };
             //-----------------------------------------------------------------//
-            eVehicleStateInGarage m_State;
             string m_OwnerName;
             string m_OwnerPhoneNumber;
             Vehicle m_Vehicle;
+            eVehicleStateInGarage m_State;
             //-----------------------------------------------------------------//
             public InformationOfVehicle(string i_OwnerName, string i_PhoneNumber, Vehicle i_Vehicle)
             {

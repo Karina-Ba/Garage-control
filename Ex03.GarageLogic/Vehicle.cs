@@ -10,17 +10,19 @@ namespace Ex03.GarageLogic
         private string m_LicenseNumber; 
         private readonly List<Wheel> m_Wheels; 
         private string m_Model;           
-        private float m_EnergyPercentage; //ask user 
+        private float m_EnergyPercentage;
         //-----------------------------------------------------------------//
         public Vehicle(Engine i_Engine, string i_LicenseNumber, int i_NumberOfWheels, float i_MaxAirPressure)
         {
             this.m_Engine = i_Engine;
             this.m_LicenseNumber = i_LicenseNumber;
             this.m_Wheels = new List<Wheel>(i_NumberOfWheels);
+
             for(int i = 0 ; i < i_NumberOfWheels; ++i)
             {
                 m_Wheels.Add(new Wheel(i_MaxAirPressure));
             }
+
             this.m_EnergyPercentage = 0;
         }
         //-----------------------------------------------------------------//
@@ -87,11 +89,12 @@ namespace Ex03.GarageLogic
             foreach (Wheel wheel in this.m_Wheels)
             {
                 airToAdd = wheel.MaxAirPressure - wheel.CurrentAirPressure;
+
                 try
                 {
                     wheel.InflateWheel(airToAdd);
                 }
-                catch(ValueOutOfRangeException exception)
+                catch (ValueOutOfRangeException exception)
                 {
                     throw exception;
                 }
@@ -119,10 +122,10 @@ Wheels:
             }
 
             vehicleInformation.Append(this.m_Engine.ToString());
+
             return vehicleInformation.ToString();
         }
-        //-----------------------------------------------------------------//
-        //Nested class
+        //-----------------------------------------Nested class----------------------------------------------//
         public class Wheel
         {
             private float m_MaxAirPressureByManufactor; 
@@ -189,6 +192,7 @@ Wheels:
                 this.m_CurrentAirPressure.ToString(),
                 this.m_ManufactorName.ToString());
                 information.Append(Environment.NewLine);
+
                 return information.ToString();
             }
 

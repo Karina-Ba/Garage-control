@@ -13,8 +13,7 @@ namespace Ex03.GarageLogic
             Fuel,
             Electric
         };
-        //-----------------------------------------------------------------//
-        //Nested class
+        //-----------------------------------------Nested class----------------------------------------------//
         public class ElectricEngine: Engine
         {
             private float m_MaxBatteryTime;
@@ -60,7 +59,6 @@ namespace Ex03.GarageLogic
                     throw new ValueOutOfRangeException(this.m_MaxBatteryTime, 0, errorMessage); 
                 }
             }
-
             //-----------------------------------------------------------------//
             public override string ToString()
             {
@@ -70,11 +68,11 @@ namespace Ex03.GarageLogic
     Battery time left: {1}",
                 this.m_MaxBatteryTime.ToString(),
                 this.m_BatteryTimeLeft.ToString());
+
                 return information.ToString();
             }
         }
-        //-----------------------------------------------------------------//
-        //Nested class
+        //-----------------------------------------Nested class----------------------------------------------//
         public class FuelEngine: Engine
         {
             public enum eFuelType
@@ -134,19 +132,17 @@ namespace Ex03.GarageLogic
             //-----------------------------------------------------------------//
             public void Refuel(float i_FuelToAdd, eFuelType i_FuelType)
             {
-                string errorMessage;
                 if (this.m_FuelType != i_FuelType)
                 {
-                    errorMessage = "Invalid Fuel type";
-                    throw new ArgumentException(errorMessage);
+                    throw new ArgumentException("Invalid Fuel type");
                 }
+
                 this.m_FuelLeft += i_FuelToAdd;
 
                 if (this.m_FuelLeft > this.m_MaxFuelCapacity)
                 {
-                    errorMessage = "Maximum battery charge exceeded";
                     this.m_FuelLeft -= i_FuelToAdd;
-                    throw new ValueOutOfRangeException(this.m_MaxFuelCapacity, 0, errorMessage);
+                    throw new ValueOutOfRangeException(this.m_MaxFuelCapacity, 0, @"Surpassing tank's limit of fuel, please try again: ");
                 }
             }
             //-----------------------------------------------------------------//
@@ -161,6 +157,7 @@ namespace Ex03.GarageLogic
                 this.m_MaxFuelCapacity.ToString(),
                 this.FuelLeft.ToString());
                 information.Append(Environment.NewLine);
+
                 return information.ToString();
             }
 

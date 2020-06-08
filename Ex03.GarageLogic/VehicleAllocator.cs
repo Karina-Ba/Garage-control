@@ -23,7 +23,6 @@ namespace Ex03.GarageLogic
             {
                 case eVehicleType.ElectricCar:
                     newEngine = new Engine.ElectricEngine(2.1f);
-
                     newVehicle = new Car(newEngine, i_LicenseNumber);
                     break;
                 case eVehicleType.FueledCar:

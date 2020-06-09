@@ -152,7 +152,7 @@ Choice: ");
                 this.printVehicleMenu();
                 VehicleAllocator.eVehicleType vehicleType = (VehicleAllocator.eVehicleType)this.getValidInputValueInRange(1, 5);
                 Vehicle newVehicle = VehicleAllocator.AllocateVehicle(vehicleType, licenseNumber);
-                informationOfVehicle = this.fillInformationForVehicle(i_Garage, newVehicle, vehicleType);
+                informationOfVehicle = this.fillInformationForVehicle(newVehicle, vehicleType);
                 i_Garage.VehiclesInTheGarage.Add(licenseNumber, informationOfVehicle);
                 Console.WriteLine("Vehicle added to the garage successfully!");
                 this.printBackToMenuPause();

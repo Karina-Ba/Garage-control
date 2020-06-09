@@ -7,8 +7,8 @@ namespace Ex03.ConsoleUI
     {
         static void Main()
         {
-            UserInterface ui = new UserInterface();
-            ui.InitializeUI();
+            UserInterface garageUI = new UserInterface();
+            garageUI.InitializeUI();
         }
     }
 }

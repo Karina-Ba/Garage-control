@@ -11,10 +11,10 @@ namespace Ex03.ConsoleUI
         //-----------------------------------------------------------------//
         public void InitializeUI()
         {
-            OpenGarage();
+            openGarage();
         }
         //-----------------------------------------------------------------//
-        public void OpenGarage()
+        private void openGarage()
         {
             Garage garage = new Garage();
             int userInputChoice;
@@ -59,6 +59,7 @@ Choice: ");
         //-----------------------------------------------------------------//
         private int printMenuForLicensePlatesGetUserChoice()
         {
+            Console.WriteLine("Printing license plates by state filter:" + Environment.NewLine);
             Console.Write(@"Menu options:
 
 1. Filter by state in the garage
@@ -108,7 +109,6 @@ Choice: ");
                     this.getVehicleInformation(i_Garage);
                     break;
                 case 2:
-                    Console.WriteLine("Printing license plates by state filter:" + Environment.NewLine);
                     this.printLicensePlatesInGarage((int)this.printMenuForLicensePlatesGetUserChoice(), i_Garage);
                     break;
                 case 3:
@@ -152,7 +152,7 @@ Choice: ");
                 this.printVehicleMenu();
                 VehicleAllocator.eVehicleType vehicleType = (VehicleAllocator.eVehicleType)this.getValidInputValueInRange(1, 5);
                 Vehicle newVehicle = VehicleAllocator.AllocateVehicle(vehicleType, licenseNumber);
-                informationOfVehicle = this.fillInformationForVehicle(newVehicle, vehicleType);
+                informationOfVehicle = this.fillInformationForVehicle(i_Garage, newVehicle, vehicleType);
                 i_Garage.VehiclesInTheGarage.Add(licenseNumber, informationOfVehicle);
                 Console.WriteLine("Vehicle added to the garage successfully!");
                 this.printBackToMenuPause();
@@ -162,7 +162,7 @@ Choice: ");
         private Garage.InformationOfVehicle fillInformationForVehicle(Vehicle i_Vehicle, VehicleAllocator.eVehicleType i_VehicleType)
         {
             string ownerPhoneNumber, ownerName, manufactorName;
-            float currentAirPressure;
+            float currentAirPressure, currentEnergyAmount;
 
             Console.Write("Please enter the model: ");
             i_Vehicle.Model = this.getValidStringInputLettersAndNumbers();
@@ -174,15 +174,16 @@ Choice: ");
 
             if (i_Vehicle.Engine is Engine.FuelEngine)
             {
-                (i_Vehicle.Engine as Engine.FuelEngine).FuelLeft = getValidInputValueInRange(0, (i_Vehicle.Engine as Engine.FuelEngine).MaxFuelCapacity);
+                currentEnergyAmount = getValidInputValueInRange(0, (i_Vehicle.Engine as Engine.FuelEngine).MaxFuelCapacity);
             }
             else
             {
-                (i_Vehicle.Engine as Engine.ElectricEngine).BatteryTimeLeft = getValidInputValueInRange(0, (i_Vehicle.Engine as Engine.ElectricEngine).MaxBatteryTime);
+                currentEnergyAmount = getValidInputValueInRange(0, (i_Vehicle.Engine as Engine.ElectricEngine).MaxBatteryTime);
             }
 
-            VehicleAllocator.SetEnergyPrecentage(i_Vehicle);
-            VehicleAllocator.SetVehicleWheels(manufactorName, currentAirPressure, i_Vehicle);
+            i_Vehicle.SetVehicleWheels(manufactorName, currentAirPressure);
+            i_Vehicle.SetCurrentEnergyAmount(currentEnergyAmount);
+            i_Vehicle.SetEnergyPrecentage();
             this.completeVehicleInformation(ref i_Vehicle, i_VehicleType);
             this.getOwnerInformation(out ownerName, out ownerPhoneNumber);
             return new Garage.InformationOfVehicle(ownerName, ownerPhoneNumber, i_Vehicle);
@@ -249,9 +250,9 @@ Choice: ");
         //-----------------------------------------------------------------//
         private string getValidStringInputLettersAndSpaces(string i_Message)
         {
+            bool isValidNameString = false;
             Console.Write(i_Message);
             string stringFromUser = Console.ReadLine();
-            bool isValidNameString = false;
 
             while (!isValidNameString)
             {
@@ -396,7 +397,8 @@ Choice: ");
             while (!float.TryParse(userInputChoice, out userInputNumerical) ||
                    ValueOutOfRangeException.ValueOutOfRange(userInputNumerical, i_MaxValue, i_MinValue))
             {
-                Console.WriteLine("Choice is out of boundaries, please enter again: ");
+                Console.WriteLine(@"Choice is out of boundaries, please enter input again in the range {0} to {1}: ",
+                    i_MinValue, i_MaxValue);
                 userInputChoice = Console.ReadLine();
             }
 

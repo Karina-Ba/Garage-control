@@ -125,6 +125,39 @@ Wheels:
 
             return vehicleInformation.ToString();
         }
+        //-----------------------------------------------------------------//
+        public void SetVehicleWheels(string i_ManufactorName, float i_CurrentAirPressure)
+        {
+            foreach (Wheel currentWheel in this.Wheels)
+            {
+                currentWheel.ManufactorName = i_ManufactorName;
+                currentWheel.CurrentAirPressure = i_CurrentAirPressure;
+            }
+        }
+        //-----------------------------------------------------------------//
+        public void SetCurrentEnergyAmount(float i_EnergyAmount)
+        {
+            if (this.Engine is Engine.FuelEngine)
+            {
+                (this.Engine as Engine.FuelEngine).FuelLeft = i_EnergyAmount;
+            }
+            else
+            {
+                (this.Engine as Engine.ElectricEngine).BatteryTimeLeft = i_EnergyAmount;
+            }
+        }
+        //-----------------------------------------------------------------//
+        public void SetEnergyPrecentage()
+        {
+            if (this.Engine is Engine.FuelEngine)
+            {
+                this.EnergyPrecentage = ((this.Engine as Engine.FuelEngine).FuelLeft / (this.Engine as Engine.FuelEngine).MaxFuelCapacity) * 100f;
+            }
+            else
+            {
+                this.EnergyPrecentage = ((this.Engine as Engine.ElectricEngine).BatteryTimeLeft / (this.Engine as Engine.ElectricEngine).BatteryTimeLeft) * 100f;
+            }
+        }
         //-----------------------------------------Nested class----------------------------------------------//
         public class Wheel
         {

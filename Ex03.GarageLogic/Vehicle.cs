@@ -208,9 +208,12 @@ Wheels:
 
                 if (this.m_CurrentAirPressure > this.m_MaxAirPressureByManufactor)
                 {
-                    string errorMessage = "Maximum air pressure in tire exceeded";
                     this.m_CurrentAirPressure -= i_AirToAdd;
-                    throw new ValueOutOfRangeException(this.m_MaxAirPressureByManufactor, 0, errorMessage);
+                    throw new ValueOutOfRangeException(this.m_MaxAirPressureByManufactor, 0, "Maximum air pressure in tire exceeded");
+                }
+                else if (this.m_CurrentAirPressure == this.m_MaxAirPressureByManufactor)
+                {
+                    throw new ValueOutOfRangeException(this.m_MaxAirPressureByManufactor, 0, "The tires are already full");
                 }
             }
             //-----------------------------------------------------------------//

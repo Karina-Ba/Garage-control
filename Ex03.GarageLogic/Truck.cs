@@ -113,8 +113,8 @@ namespace Ex03.GarageLogic
             StringBuilder truckDetails = new StringBuilder();
             truckDetails.Append(base.ToString());
             truckDetails.AppendFormat(@"Truck Details:
-Hazardous Goods: {0}
-Baggage Capacity: {1}",
+    Hazardous Goods: {0}
+    Baggage Capacity: {1}",
             this.m_IsTransportingHazardousGoods.ToString(),
             this.m_BaggageCapacity.ToString());
             truckDetails.Append(Environment.NewLine);

@@ -50,13 +50,23 @@ namespace Ex03.GarageLogic
             //-----------------------------------------------------------------//
             public void ChargeBattery(float i_ChargeToAdd)
             {
+                string errorMessage;
                 this.m_BatteryTimeLeft += i_ChargeToAdd;
 
                 if (this.m_BatteryTimeLeft > this.m_MaxBatteryTime)
                 {
-                    string errorMessage = "Maximum battery charge exceeded";
                     this.m_BatteryTimeLeft -= i_ChargeToAdd;
-                    throw new ValueOutOfRangeException(this.m_MaxBatteryTime, 0, errorMessage); 
+
+                    if (this.m_BatteryTimeLeft == this.m_MaxBatteryTime)
+                    {
+                        errorMessage = "Battery is already fully charged";
+                    }
+                    else
+                    {
+                        errorMessage = "Maximum battery charge exceeded";
+                    }
+
+                    throw new ValueOutOfRangeException(this.m_MaxBatteryTime - this.m_BatteryTimeLeft, 0, errorMessage); 
                 }
             }
             //-----------------------------------------------------------------//
@@ -68,6 +78,7 @@ namespace Ex03.GarageLogic
     Battery time left: {1}",
                 this.m_MaxBatteryTime.ToString(),
                 this.m_BatteryTimeLeft.ToString());
+                information.Append(Environment.NewLine);
 
                 return information.ToString();
             }
@@ -132,6 +143,8 @@ namespace Ex03.GarageLogic
             //-----------------------------------------------------------------//
             public void Refuel(float i_FuelToAdd, eFuelType i_FuelType)
             {
+                string errorMessage;
+
                 if (this.m_FuelType != i_FuelType)
                 {
                     throw new ArgumentException("Invalid Fuel type");
@@ -142,7 +155,17 @@ namespace Ex03.GarageLogic
                 if (this.m_FuelLeft > this.m_MaxFuelCapacity)
                 {
                     this.m_FuelLeft -= i_FuelToAdd;
-                    throw new ValueOutOfRangeException(this.m_MaxFuelCapacity, 0, @"Surpassing tank's limit of fuel, please try again: ");
+
+                    if (this.m_FuelLeft == this.m_MaxFuelCapacity)
+                    {
+                        errorMessage = "Tank is already full";
+                    }
+                    else
+                    {
+                        errorMessage = "Maximum tank capacity exceeded";
+                    }
+
+                    throw new ValueOutOfRangeException(this.m_MaxFuelCapacity- this.m_FuelLeft, 0, errorMessage);
                 }
             }
             //-----------------------------------------------------------------//

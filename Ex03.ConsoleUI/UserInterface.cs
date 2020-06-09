@@ -155,8 +155,9 @@ Choice: ");
                 informationOfVehicle = this.fillInformationForVehicle(newVehicle, vehicleType);
                 i_Garage.VehiclesInTheGarage.Add(licenseNumber, informationOfVehicle);
                 Console.WriteLine("Vehicle added to the garage successfully!");
-                this.printBackToMenuPause();
             }
+
+            this.printBackToMenuPause();
         }
         //-----------------------------------------------------------------//
         private Garage.InformationOfVehicle fillInformationForVehicle(Vehicle i_Vehicle, VehicleAllocator.eVehicleType i_VehicleType)
@@ -299,8 +300,6 @@ Choice: ");
         private Garage.InformationOfVehicle.eVehicleStateInGarage getVehicleStateFromUser()
         {
             Garage.InformationOfVehicle.eVehicleStateInGarage state;
-
-            Console.Clear();
             Console.Write(@"Choose the desired state: 
 1. In repair
 2. Repaired
@@ -359,7 +358,6 @@ Choice: ");
                 catch (ValueOutOfRangeException exception)
                 {
                     Console.WriteLine(exception.Message);
-                    Console.WriteLine("The value range is between {0} to {1}", exception.MinValue, exception.MaxValue);
                     userChoice = this.printWrongInputMenuGetUserInput();
                 }
             }
@@ -427,9 +425,13 @@ Choice: ");
                     Console.WriteLine(exception.Message);
                 }
                 catch (ValueOutOfRangeException exception)
-                { 
+                {
                     Console.WriteLine(exception.Message);
-                    Console.WriteLine("Value ranges are {0} to {1}", (exception as ValueOutOfRangeException).MinValue, (exception as ValueOutOfRangeException).MaxValue);
+
+                    if (exception.MinValue != exception.MaxValue)
+                    {
+                        Console.WriteLine("Value ranges are {0} to {1}", exception.MinValue, exception.MaxValue);
+                    }
                 }
                 catch (ArgumentException exception)
                 {
@@ -452,7 +454,7 @@ Choice: ");
             }
             
             Console.Write("Please enter the amount you want to power the engine: ");
-            o_HowMuchToAdd = this.getValidInputValueInRange(0.001f, 120);
+            o_HowMuchToAdd = this.getValidInputValueInRange(0, 120);
         }
         //-----------------------------------------------------------------//
         private int getValidUserPositiveNumberInput(string i_Message)

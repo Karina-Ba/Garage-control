@@ -109,8 +109,8 @@ namespace Ex03.GarageLogic
             StringBuilder motorcycleDetails = new StringBuilder();
             motorcycleDetails.Append(base.ToString());
             motorcycleDetails.AppendFormat(@"Motorcycle Details: 
-License Type: {0}
-Engine Volume: {1}", 
+    License Type: {0}
+    Engine Volume: {1}", 
             this.m_License.ToString(),
             this.m_EngineCapacity.ToString());
             motorcycleDetails.Append(Environment.NewLine);
